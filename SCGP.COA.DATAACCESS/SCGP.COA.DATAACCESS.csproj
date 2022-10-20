@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Repositories\Coa\Interface\**" />
+    <Content Remove="Repositories\Coa\Interface\**" />
+    <EmbeddedResource Remove="Repositories\Coa\Interface\**" />
+    <None Remove="Repositories\Coa\Interface\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Entities\Coa\Master\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SCGP.COMMON\SCGP.COA.COMMON.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,121 @@
+﻿@model SCGP.COA.BUSINESSLOGIC.Models.PrintCoaExportPdfModel;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title> @Model.FileName</title>
+    <meta charset="utf-8">
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+            /* border: 1px solid black; */
+            font-size: 16px;
+            font-family: tahoma;
+        }
+
+        body {
+            padding: 5px;
+            font-family: tahoma;
+        }
+
+        h2 {
+            font-size: 16px;
+        }
+
+        table {
+            table-layout: fixed;
+            word-break: break-all;
+        }
+
+        #tData table,
+        #tData th,
+        #tData td {
+            font-size: 12px;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        #tData thead {
+            background-color: lightgrey;
+        }
+
+        td.center {
+            text-align: center;
+        }
+
+        /*table,*/
+        tr,
+        td,
+        th,
+        tbody,
+        thead,
+        tfoot {
+            page-break-inside: avoid !important;
+        }
+
+            table thead {
+                font-size: 14px;
+            }
+
+            tbody tr td {
+                font-size: 15px;
+                border: 1px solid black;
+                /* border-collapse: collapse; */
+            }
+
+            #table_header th {
+                font-size: 15px;
+                border: 1px solid black;
+                /* border-collapse: collapse; */
+            }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        th.left,
+        td.left {
+            text-align: left;
+        }
+
+        th.right,
+        td.right {
+            text-align: right;
+        }
+
+        tbody tr td:nth-child(6) {
+            word-break: break-all;
+        }
+
+        tbody tr td:nth-child(5),
+        tbody tr td:nth-child(10),
+        tbody tr td:nth-child(11) {
+            word-break: break-word;
+        }
+
+        tr.space > td {
+            padding-bottom: 1.5em;
+        }
+
+        tfoot > tr:first-child > th,
+        tfoot > tr:first-child > td {
+            padding-top: 1em;
+        }
+
+        table {
+            page-break-inside: auto !important
+        }
+    </style>
+</head>
+<body onload="onLoadBody()">
+    <div id="divcontent" align="center">
+        @Html.Raw(Model.SheetHtml)
+    </div>
+</body>
+</html>

@@ -1,0 +1,1098 @@
+
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:p1="urn:scg.co.th:PAPER:AUTODN:Delivery" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" name="SI_AUTODNDeliveryInquiry_OS" targetNamespace="urn:scg.co.th:PAPER:AUTODN:Delivery">
+   <wsdl:documentation />
+   <wsp:UsingPolicy wsdl:required="true" />
+   <wsp:Policy wsu:Id="OP_SI_AUTODNDeliveryInquiry_OS" />
+   <wsdl:types>
+      <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:scg.co.th:PAPER:AUTODN:Delivery" targetNamespace="urn:scg.co.th:PAPER:AUTODN:Delivery">
+         <xsd:element name="MT_AUTODNDeliveryInquiryRes" type="DT_AUTODNDeliveryInquiryRes" />
+         <xsd:element name="MT_AUTODNDeliveryInquiryReq" type="DT_AUTODNDeliveryInquiryReq" />
+         <xsd:complexType name="DT_AUTODNDeliveryInquiryRes">
+            <xsd:annotation>
+               <xsd:appinfo source="http://sap.com/xi/VersionID">
+               fbadcbb4363011e8c328000027bd508e
+               </xsd:appinfo>
+            </xsd:annotation>
+            <xsd:sequence>
+               <xsd:element name="EX_DN" minOccurs="0" form="qualified">
+                  <xsd:annotation>
+                     <xsd:appinfo source="http://sap.com/xi/TextID">
+                     a4fd9c31364111e8c9d100090ffe0001
+                     </xsd:appinfo>
+                  </xsd:annotation>
+                  <xsd:complexType>
+                     <xsd:sequence>
+                        <xsd:element name="DN_NO" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fc6e4b364111e8ca4600090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Sales and Distribution Document Number
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="10" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="DN_TYPE" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fc9c13364111e8c62f00090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Delivery Type
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="4" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="DOC_CATE" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fc9c14364111e8cbf300090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              SD document category
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="1" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="SOLD_TO" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fc9c15364111e8911f00090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Sold-to party
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="10" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="SOLD_TO_NAME" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fc9c16364111e8ac9000090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Name 1
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="40" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="SOLD_TO_ADDR" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fcc2f6364111e88bcd00090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Address of the sold-to party
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="255" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="SOLD_TO_COUNTRY" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fcc2f7364111e8adfc00090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Country Key
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="3" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="SOLD_GRP" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fcc2f8364111e8aa6f00090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Customer group
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="2" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="SHIP_TO" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fcc2f9364111e8a9bb00090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Customer Number
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="10" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="SHIP_TO_NAME" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fcc2fa364111e89c2400090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Name
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="30" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="SHIP_TO_ADDR" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fcc2fb364111e8bfe300090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Address of the ship-to party
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="255" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="SHIP_TO_COUNTRY" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fcc2fc364111e8a60100090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Country Key
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="3" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="SALES_ORG" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fcfee8364111e8b99900090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Sales Organization
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="4" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="SHIPPING_POINT" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fcfee9364111e8ce4500090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Shipping Point/Receiving Point
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="4" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="ROUTE" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fcfeea364111e89e0600090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Route
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="6" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="PICK_DATE" type="xsd:string" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fcfeeb364111e8af4000090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Picking Date
+                              </xsd:documentation>
+                           </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="PICK_TIME" type="xsd:string" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fcfeec364111e8a15400090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Picking time (local time, with reference to a plant)
+                              </xsd:documentation>
+                           </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="PLAN_GI_DATE" type="xsd:string" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fcfeed364111e8b8ac00090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Goods Issue Date
+                              </xsd:documentation>
+                           </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="PLAN_GI_TIME" type="xsd:string" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fd1938364111e8ae4f00090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Transp. Planning Time (Local, Relating to a Shipping Point)
+                              </xsd:documentation>
+                           </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="DLVR_DATE" type="xsd:string" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fd1939364111e8bcb200090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Delivery date
+                              </xsd:documentation>
+                           </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="DLVR_TIME" type="xsd:string" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fd193a364111e8c0d300090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Time of delivery
+                              </xsd:documentation>
+                           </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="PICK_STATUS" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fd193b364111e8ab6700090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Overall picking / putaway status
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="1" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="GI_STATUS" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fd193c364111e8c31d00090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Total goods movement status
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="1" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="TOTAL_WEIGHT" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fd193d364111e8ad3d00090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Total Weight
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:decimal">
+                                 <xsd:totalDigits value="15" />
+                                 <xsd:fractionDigits value="3" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="NET_WEIGHT" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fd193e364111e8b96800090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Net Weight
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:decimal">
+                                 <xsd:totalDigits value="13" />
+                                 <xsd:fractionDigits value="3" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="WEIGHT_UNIT" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fd355b364111e8ccf100090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Weight Unit
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="3" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="VOLUMN" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fd355c364111e8863f00090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Volume
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:decimal">
+                                 <xsd:totalDigits value="13" />
+                                 <xsd:fractionDigits value="3" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="VOLUMN_UNIT" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fd355d364111e88ee400090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Volume unit
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="3" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="INCO_1" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fd355e364111e888d300090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Incoterms (Part 1)
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="3" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="INCO_2" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fd355f364111e8b5d700090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Incoterms (Part 2)
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="28" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="DLVR_PRIORITY" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fd3560364111e8836900090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Delivery Priority
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:pattern value="\d+" />
+                                 <xsd:maxLength value="2" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="SHIP_COND" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fd63f3364111e8835100090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Shipping Conditions
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="2" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="SHIPMENT_NO" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fd63f4364111e8ba5200090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Shipment Number
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="10" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="TPP_POINT" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fd63f5364111e8930100090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Transportation planning point
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="4" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="CREATE_BY" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fd63f6364111e8a0e700090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Name of Person who Created the Object
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="12" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="CREATE_DATE" type="xsd:string" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fd63f7364111e888d100090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Date on Which Record Was Created
+                              </xsd:documentation>
+                           </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="CHANGE_BY" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fd63f8364111e88a7400090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Name of Person Who Changed Object
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="12" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="CHANGE_DATE" type="xsd:string" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fd63f9364111e8ba6200090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Changed On
+                              </xsd:documentation>
+                           </xsd:annotation>
+                        </xsd:element>
+                     </xsd:sequence>
+                  </xsd:complexType>
+               </xsd:element>
+               <xsd:element name="ET_DN_ITEM" minOccurs="0" maxOccurs="unbounded" form="qualified">
+                  <xsd:annotation>
+                     <xsd:appinfo source="http://sap.com/xi/TextID">
+                     a4fe1d11364111e89ca200090ffe0001
+                     </xsd:appinfo>
+                  </xsd:annotation>
+                  <xsd:complexType>
+                     <xsd:sequence>
+                        <xsd:element name="DNITEM_NO" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fd9c32364111e89dcd00090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Item number of the SD document
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:pattern value="\d+" />
+                                 <xsd:maxLength value="6" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="DNSPLIT_NO" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fd9c33364111e88c5e00090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Item number of the SD document
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:pattern value="\d+" />
+                                 <xsd:maxLength value="6" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="ITEM_CATE" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fd9c34364111e8b5ca00090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Sales document item category
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="4" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="MATERIAL_NO" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fdab74364111e886b900090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Material Number
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="18" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="MAT_DESC" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fdab75364111e8a40900090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Short text for sales order item
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="40" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="MAT_GRP" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fdab76364111e8a26900090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Material Group
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="9" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="MAT_TYPE" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fdab77364111e8ab6100090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Material Type
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="4" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="PLANT" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fdab78364111e8b69b00090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Plant
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="4" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="SLOC" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fdab79364111e8c71300090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Storage Location
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="4" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="BATCH" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fde6da364111e8a42e00090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Batch Number
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="10" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="PROD_HIER" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fde6db364111e89be500090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Product hierarchy
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="18" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="DLVR_QTY" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fde6dc364111e8a2c500090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Actual quantity delivered (in sales units)
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:decimal">
+                                 <xsd:totalDigits value="13" />
+                                 <xsd:fractionDigits value="3" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="SALES_UNIT" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fde6dd364111e8b81700090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Sales unit
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="3" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="DLVRY_BLOCK" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fde6de364111e8caff00090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Block
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="2" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="NET_WEIGHT" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fde6df364111e8b70400090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Net weight
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:decimal">
+                                 <xsd:totalDigits value="15" />
+                                 <xsd:fractionDigits value="3" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="GROSS_WEIGHT" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fe0228364111e8a1d000090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Gross Weight
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:decimal">
+                                 <xsd:totalDigits value="13" />
+                                 <xsd:fractionDigits value="3" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="WEIGHT_UNIT" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fe0229364111e88a5700090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Weight Unit
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="3" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="ACTUAL_QTY" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fe022a364111e880b900090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Actual quantity delivered in stockkeeping units
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:decimal">
+                                 <xsd:totalDigits value="13" />
+                                 <xsd:fractionDigits value="3" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="BASE_UNIT" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fe022b364111e8bebf00090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Base Unit of Measure
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="3" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="ORDER_NO" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fe022c364111e895f200090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Order Number
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="12" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="ITEM_NO" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fe022d364111e8a34900090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Order Item Number
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:pattern value="\d+" />
+                                 <xsd:maxLength value="4" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                     </xsd:sequence>
+                  </xsd:complexType>
+               </xsd:element>
+               <xsd:element name="EX_RETURN" minOccurs="0" form="qualified">
+                  <xsd:annotation>
+                     <xsd:appinfo source="http://sap.com/xi/TextID">
+                     a4fe3f90364111e8c2c800090ffe0001
+                     </xsd:appinfo>
+                  </xsd:annotation>
+                  <xsd:complexType>
+                     <xsd:sequence>
+                        <xsd:element name="QUERY_DATE" type="xsd:string" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fe1d12364111e8c1de00090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Field of type DATS
+                              </xsd:documentation>
+                           </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="QUERY_TIME" type="xsd:string" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fe1d13364111e89a8000090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Field of type TIMS
+                              </xsd:documentation>
+                           </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="STATUS_TYPE" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fe1d14364111e897e700090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Message type: S Success, E Error, W Warning, I Info, A Abort
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="1" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="STATUS_ID" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fe1d15364111e89da000090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Message Class
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="20" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="STATUS_NO" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fe3f8d364111e8a6bf00090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Message Number
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:pattern value="\d+" />
+                                 <xsd:maxLength value="3" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="MESSAGE_TEXT" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fe3f8e364111e8aa1a00090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Message Text
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="220" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="PI_MSG_ID" minOccurs="0" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              a4fe3f8f364111e89d9400090ffe0001
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Web Interface - SAP PI transaction ID
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="40" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                     </xsd:sequence>
+                  </xsd:complexType>
+               </xsd:element>
+            </xsd:sequence>
+         </xsd:complexType>
+         <xsd:complexType name="DT_AUTODNDeliveryInquiryReq">
+            <xsd:annotation>
+               <xsd:appinfo source="http://sap.com/xi/VersionID">
+               90328f2f3d6711e8be3c000027bd508e
+               </xsd:appinfo>
+            </xsd:annotation>
+            <xsd:sequence>
+               <xsd:element name="DN_NO" form="qualified">
+                  <xsd:annotation>
+                     <xsd:appinfo source="http://sap.com/xi/TextID">
+                     972a2325363011e8a54f00090ffe0001
+                     </xsd:appinfo>
+                     <xsd:documentation>
+                     Sales and Distribution Document Number
+                     </xsd:documentation>
+                  </xsd:annotation>
+                  <xsd:simpleType>
+                     <xsd:restriction base="xsd:string">
+                        <xsd:maxLength value="10" />
+                     </xsd:restriction>
+                  </xsd:simpleType>
+               </xsd:element>
+               <xsd:element name="T_SALE_ORG" maxOccurs="unbounded" form="qualified">
+                  <xsd:annotation>
+                     <xsd:appinfo source="http://sap.com/xi/TextID">
+                     dd8a57713d6711e8c3a680ce6220420d
+                     </xsd:appinfo>
+                  </xsd:annotation>
+                  <xsd:complexType>
+                     <xsd:sequence>
+                        <xsd:element name="SALES_ORG" form="qualified">
+                           <xsd:annotation>
+                              <xsd:appinfo source="http://sap.com/xi/TextID">
+                              dd8a57703d6711e88cb480ce6220420d
+                              </xsd:appinfo>
+                              <xsd:documentation>
+                              Sale Org
+                              </xsd:documentation>
+                           </xsd:annotation>
+                           <xsd:simpleType>
+                              <xsd:restriction base="xsd:string">
+                                 <xsd:maxLength value="10" />
+                              </xsd:restriction>
+                           </xsd:simpleType>
+                        </xsd:element>
+                     </xsd:sequence>
+                  </xsd:complexType>
+               </xsd:element>
+            </xsd:sequence>
+         </xsd:complexType>
+      </xsd:schema>
+   </wsdl:types>
+   <wsdl:message name="MT_AUTODNDeliveryInquiryReq">
+      <wsdl:documentation />
+      <wsdl:part name="MT_AUTODNDeliveryInquiryReq" element="p1:MT_AUTODNDeliveryInquiryReq" />
+   </wsdl:message>
+   <wsdl:message name="MT_AUTODNDeliveryInquiryRes">
+      <wsdl:documentation />
+      <wsdl:part name="MT_AUTODNDeliveryInquiryRes" element="p1:MT_AUTODNDeliveryInquiryRes" />
+   </wsdl:message>
+   <wsdl:portType name="SI_AUTODNDeliveryInquiry_OS">
+      <wsdl:documentation />
+      <wsdl:operation name="SI_AUTODNDeliveryInquiry_OS">
+         <wsdl:documentation />
+         <wsp:Policy>
+            <wsp:PolicyReference URI="#OP_SI_AUTODNDeliveryInquiry_OS" />
+         </wsp:Policy>
+         <wsdl:input message="p1:MT_AUTODNDeliveryInquiryReq" />
+         <wsdl:output message="p1:MT_AUTODNDeliveryInquiryRes" />
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="SI_AUTODNDeliveryInquiry_OSBinding" type="p1:SI_AUTODNDeliveryInquiry_OS">
+      <soap:binding xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+      <wsdl:operation name="SI_AUTODNDeliveryInquiry_OS">
+         <soap:operation xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" soapAction="http://sap.com/xi/WebService/soap1.1" />
+         <wsdl:input>
+            <soap:body xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+	<wsdl:service name="SI_AUTODNDeliveryInquiry_OSService">
+		<wsdl:port name="HTTP_Port_D" binding="p1:SI_AUTODNDeliveryInquiry_OSBinding">
+			<soap:address location="http://chembsr3db81.scg.co.th:56600/XISOAPAdapter/MessageServlet?senderParty=&amp;senderService=BS_PAPER_AUTODN_D&amp;receiverParty=&amp;receiverService=&amp;interface=SI_AUTODNDeliveryInquiry_OS&amp;interfaceNamespace=urn%3Ascg.co.th%3APAPER%3AAUTODN%3ADelivery" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+		</wsdl:port>
+		<wsdl:port name="HTTP_Port_Q" binding="p1:SI_AUTODNDeliveryInquiry_OSBinding">
+			<soap:address location="http://cxqwd.scg.co.th:8080/XISOAPAdapter/MessageServlet?senderParty=&amp;senderService=BS_PAPER_AUTODN_Q&amp;receiverParty=&amp;receiverService=&amp;interface=SI_AUTODNDeliveryInquiry_OS&amp;interfaceNamespace=urn%3Ascg.co.th%3APAPER%3AAUTODN%3ADelivery" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+		</wsdl:port>
+		<wsdl:port name="HTTP_Port_P" binding="p1:SI_AUTODNDeliveryInquiry_OSBinding">
+			<soap:address location="http://cxpwd.scg.co.th:8080/XISOAPAdapter/MessageServlet?senderParty=&amp;senderService=BS_PAPER_AUTODN_P&amp;receiverParty=&amp;receiverService=&amp;interface=SI_AUTODNDeliveryInquiry_OS&amp;interfaceNamespace=urn%3Ascg.co.th%3APAPER%3AAUTODN%3ADelivery" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
