@@ -13,8 +13,8 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Laminate
     public class LaminateRepo : RepositoryBase<ConvertingBatchDatum>, ILaminateRepo
     {
         private readonly ILogger _logger;
-        private DbDataContext _db;
-        private DbReadDataContext _dbRead;
+        private readonly DbDataContext _db;
+        private readonly DbReadDataContext _dbRead;
         public LaminateRepo(DbDataContext db, DbReadDataContext DbRead) : base(db, DbRead)
         {
             _db = db;

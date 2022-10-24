@@ -4,13 +4,10 @@ using SCGP.COA.COMMON.Utilities;
 using CoaSkicPM17GypsumRepo = SCGP.COA.DATAACCESS.Repositories.CoaSkicPM17Gypsum.Interface;
 using CoaSkicPM1to3Repo = SCGP.COA.DATAACCESS.Repositories.CoaSkicPM1to3.Interface;
 using HTAG = SCGP.COA.COMMON.Contants.HtmlConstant.TAG;
-using HSTYLE = SCGP.COA.COMMON.Contants.HtmlConstant.STYLE;
 using HPROP = SCGP.COA.COMMON.Contants.HtmlConstant.PROPERTY;
 using Microsoft.AspNetCore.Mvc;
-using System.Xml.Linq;
 using SCGP.COA.BUSINESSLOGIC.Controllers;
 using SCGP.COA.BUSINESSLOGIC.Models;
-using System;
 using SCGP.COA.COMMON.Contants;
 using SCGP.COA.BUSINESSLOGIC.Services.Interface;
 using OfficeOpenXml;
@@ -18,9 +15,10 @@ using SCGP.COA.DATAACCESS.Repositories.Coa.Laminate.Interface;
 using SCGP.COA.DATAACCESS.Models;
 using SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa.Interface;
 using SCGP.COA.DATAACCESS.Entities.Coa;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System.Data;
 using SAP_Interface_DeliveryNum;
+using SCGP.COA.DATAACCESS.Repositories.Coa.ExportCoa;
+using SCGP.COA.DATAACCESS.Repositories.Coa.ExportCoa.Interfece;
 
 namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
 {
@@ -33,12 +31,14 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
         private readonly IWebHostEnvironment _environment;
         private readonly IFileService _fileService;
         private ILaminateRepo _laminateRepo;
+        private IExportCoaRepo _exportCoaRepo;
         public PrintCoaDomesticCommand(CoaSkicPM17GypsumRepo.ICoaFormRepository coaSkicPM17Gypsum_coaFormRepository
             , CoaSkicPM1to3Repo.ICoaFormRepository coaSkicPM1to3_coaFormRepository
             , IPdfService pdfService
             , IWebHostEnvironment environment
             , IFileService fileService
-            , ILaminateRepo laminateRepo)
+            , ILaminateRepo laminateRepo
+            , IExportCoaRepo exportCoaRepo)
         {
             _coaSkicPM17Gypsum_coaFormRepository = coaSkicPM17Gypsum_coaFormRepository;
             _coaSkicPM1to3_coaFormRepository = coaSkicPM1to3_coaFormRepository;
@@ -46,13 +46,13 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
             _environment = environment;
             _fileService = fileService;
             _laminateRepo = laminateRepo;
+            _exportCoaRepo = exportCoaRepo;
         }
 
-        public async Task<List<CoaPrintDomesticDataModel>> GetDPNumberDataAsync(CoaPrintDomesticSearchModel param)
+        public async Task<List<CoaPrintDomesticDataModel>> GetDPNumberDataAsync(IConfiguration _configuration, CoaPrintDomesticSearchModel param)
         {
             try
             {
-
                 var oClient1 = new SI_DeliveryInquiry_OSClient(SI_DeliveryInquiry_OSClient.EndpointConfiguration.HTTPS_Port);
                 oClient1.ClientCredentials.UserName.UserName = "...";
                 oClient1.ClientCredentials.UserName.Password = "...";
@@ -96,18 +96,19 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
                         var oData = oResData.MT_DeliveryInquiryRes;
                         if (oData.ET_LIKP.Length > 0)
                         {
-                            var xxx = oData.ET_LIPS;
-                          var cc=  xxx.Select(x=>x.MATNR);
+                            //var xxx = oData.ET_LIPS;
+                            //var cc = xxx.Select(x => x.MATNR);
                             oDTDeliveryInquiryResItems.Add(new DTDeliveryInquiryResItems
                             {
                                 //dTDeliveryInquiryResItems = oData.ET_ADRC,
                                 //dTDeliveryInquiryResItems1 = oData.ET_LIKP,
                                 //dTDeliveryInquiryResItems2 = oData.ET_LIPS,
                                 //dTDeliveryInquiryResItems3 = oData.ET_VBPA,
-                                DeliveryNum= sDpNumber,
+                                DeliveryNum = sDpNumber,
                                 MaterialNum = oData.ET_LIPS.Select(x => x.MATNR).ToString(),
                                 BatchNum = oData.ET_LIPS.Select(x => x.CHARG).ToString(),
                             });
+                            CallStoreProcedure(_configuration, oData.ET_LIPS.Select(x => x.CHARG).ToString());
                         }
                         else
                             continue;
@@ -119,6 +120,26 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
                 await Task.WhenAll(oTasks.ToArray());
 
                 return dataModels;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        private void CallStoreProcedure(IConfiguration _configuration,string? tBatch)
+        {
+            try
+            {
+                var sDbDataContext = _configuration.GetConnectionString("DbDataContext");
+                var oResData = SqlConnectDb.SP_CallSP(sDbDataContext, "sp_COA_GET_BATCH_DATA", tBatch);
+                if (oResData.Rows.Count > 0)
+                {
+                    SetDtBatchToDtTbl(oResData);
+                }
+                else
+                {
+                    // “ไม่พบข้อมูล Batch Number ["+tBatch+"] ใน database PLS”.
+                }
             }
             catch (Exception)
             {
@@ -170,7 +191,7 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
         {
             try
             {
-                var data1 = _coaSkicPM17Gypsum_coaFormRepository.Read().Select(x => new PrintCoaDataModel { Grade = x.Grade, FormNo = x.FormNo }).ToList();
+               // var data1 = _coaSkicPM17Gypsum_coaFormRepository.Read().Select(x => new PrintCoaDataModel { Grade = x.Grade, FormNo = x.FormNo }).ToList();
                 //var data2 = _coaSkicPM1to3_coaFormRepository.Read().Select(x => new PrintCoaDataModel { Grade = x.Grade, FormNo = x.FormNo }).ToList();
 
                 List<PrintCoaDataModel> data1 = new();
@@ -376,6 +397,37 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
             byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(tStr);
             return byteArray;
         }
+        private void SetDtBatchToDtTbl(DataTable oResData)
+        {
+            try
+            {
+                var list = new List<ConvertingBatchDatum>();
+                foreach (DataRow oRow in oResData.Rows)
+                {
+                    list.Add(new ConvertingBatchDatum
+                    {
+                        Batch = oRow["BATCH"].ToString(),
+                        Grade = oRow["GRADE"].ToString(),
+                        Gram = (decimal)oRow["GRAM"],
+                        ProductionDate = DateTime.Parse( oRow["PRODUCTION_DATE"].ToString()),
+                        FilmThickness =(double)oRow["FILM_THICKNESS"],
+                        Porosity = (double)oRow["POROSITY"],
+                        UploadedDatetime = DateTime.Parse(oRow["UPLOADED_DATETIME"].ToString())         
+                    });
+                }              
+                var result = _exportCoaRepo.SetDtBatchToDtTblRepo(list);
+                //if (result)
+                //{
+                //    return dataLabModels;
+                //}
+                //else
+                //    return new List<DataLabModel>();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
 
+        }
     }
 }

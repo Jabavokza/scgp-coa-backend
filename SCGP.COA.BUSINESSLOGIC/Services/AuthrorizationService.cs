@@ -41,7 +41,7 @@ namespace SCGP.COA.BUSINESSLOGIC.Services
             if (user == null)
                 throw new BusinessException($"Username does not exist");
 
-          return user;
+        //  return user;
 
             if (user.AccessFailedCount >= 3 && DateTime.Now.Subtract(user.UpdatedDate.Value) < TimeSpan.FromMinutes(5))
                 throw new BusinessException($"User has been locked, Wrong password attempt 3 times, Please wait for 5 minutes to retry");

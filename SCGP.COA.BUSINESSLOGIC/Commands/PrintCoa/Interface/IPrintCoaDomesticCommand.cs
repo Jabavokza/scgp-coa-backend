@@ -13,6 +13,6 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa.Interface
         public List<FileDataModel> SaveExport(ControllerContext controllerContext, CoaPrintDomesticExecuteModel coaPrintModel);
 
         //   public List<CoaPrintDomesticDataModel> GetDPNumberDataAsync(CoaPrintDomesticSearchModel param);
-        public  Task<List<CoaPrintDomesticDataModel>> GetDPNumberDataAsync(CoaPrintDomesticSearchModel param);
+        public  Task<List<CoaPrintDomesticDataModel>> GetDPNumberDataAsync(IConfiguration _configuration, CoaPrintDomesticSearchModel param);
     }
 }

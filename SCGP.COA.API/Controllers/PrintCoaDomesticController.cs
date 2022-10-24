@@ -19,15 +19,17 @@ namespace SCGP.COA.API.Controllers
     public class PrintCoaDomesticController : ControllerBase
     {
         private IPrintCoaDomesticCommand _printCoaDomesticCommand;
-        public PrintCoaDomesticController(IPrintCoaDomesticCommand printCoaCommand)
+        private readonly IConfiguration _configuration;
+        public PrintCoaDomesticController(IConfiguration configuration,IPrintCoaDomesticCommand printCoaCommand)
         {
             _printCoaDomesticCommand = printCoaCommand;
+            _configuration = configuration;
         }
         [HttpPost]
         // [Authorize(Roles = RoleConstant.PrintCoaExport)]
         public async Task<ResponseResult<List<CoaPrintDomesticDataModel>>> Search([FromBody] CoaPrintDomesticSearchModel param)
         {
-            var result =await _printCoaDomesticCommand.GetDPNumberDataAsync(param);
+            var result =await _printCoaDomesticCommand.GetDPNumberDataAsync(_configuration,param);
             return ResponseResult<List<CoaPrintDomesticDataModel>>.Success(result);
         }
         [HttpPost]
