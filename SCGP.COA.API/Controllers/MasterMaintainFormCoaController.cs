@@ -33,7 +33,7 @@ namespace SCGP.COA.API.Controllers
             return ResponseResult<MasterMaintainFormCoaModel>.Success(data);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Authorize(Roles = RoleConstant.UserView)]
         public async Task<ResponseResult<SearchResModel<MasterMaintainFormCoaSearchResultModel>>> Search()
         {
