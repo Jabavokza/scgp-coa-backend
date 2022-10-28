@@ -9,7 +9,7 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Laminate.Interface
     {
         public IQueryable<DataLabModel> SearchDisplayLab(DataLabModel request);
         public bool SetExcelToDataTable(List<ConvertingBatchDatum> request);
-        public IQueryable<MasterSiamToppanGrade> GetMasterLabData();
+        public IQueryable<MasterMaintainSiamToppanGrade> GetMasterLabData();
         public IQueryable<ConvertingBatchDatum> GetConvertingBatchDat();
     }
 }

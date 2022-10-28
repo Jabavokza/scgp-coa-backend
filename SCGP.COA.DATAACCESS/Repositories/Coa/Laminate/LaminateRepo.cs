@@ -76,9 +76,9 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Laminate
                 throw;
             }
         }
-        public IQueryable<MasterSiamToppanGrade> GetMasterLabData()
+        public IQueryable<MasterMaintainSiamToppanGrade> GetMasterLabData()
         {
-            var res = _db.MasterSiamToppanGrades.AsQueryable();
+            var res = _db.MASTER_MAINTAIN_SIAM_TOPPAN_GRADE.AsQueryable();
             return res;
         }
         public IQueryable<ConvertingBatchDatum> GetConvertingBatchDat()

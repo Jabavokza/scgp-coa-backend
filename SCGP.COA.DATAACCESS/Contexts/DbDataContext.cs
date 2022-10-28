@@ -87,44 +87,57 @@ namespace SCGP.COA.DATAACCESS.Contexts
                     .HasColumnName("STATUS");
             });
 
-            modelBuilder.Entity<MasterAutoCoaCustomer>(entity =>
+            modelBuilder.Entity<MasterMaintainAutoCoa>(entity =>
             {
-                entity.HasKey(e => e.CustomerCode)
+                entity.HasKey(e => e.AutoCoaId)
                     .HasName("PK__MASTER_A__8E71B5A88F3F4AF1");
 
                 entity.ToTable("MASTER_AUTO_COA_CUSTOMER");
 
-                entity.Property(e => e.CustomerCode)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("CUSTOMER_CODE")
-                    .IsFixedLength();
+                entity.Property(e => e.AutoCoaId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("AUTO_COA_ID");
 
                 entity.Property(e => e.AutocoaActive).HasColumnName("AUTOCOA_ACTIVE");
 
-                entity.Property(e => e.ShiptoCode)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("SHIPTO_CODE")
-                    .IsFixedLength();
-            });
-
-            modelBuilder.Entity<MasterCustomer>(entity =>
-            {
-                entity.HasKey(e => e.CustomerCode)
-                    .HasName("PK__MASTER_C__8E71B5A803ABB44D");
-
-                entity.ToTable("MASTER_CUSTOMER");
-
                 entity.Property(e => e.CustomerCode)
                     .HasMaxLength(10)
                     .IsUnicode(false)
                     .HasColumnName("CUSTOMER_CODE")
                     .IsFixedLength();
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasColumnName("IS_ACTIVE")
+                    .HasDefaultValueSql("(CONVERT([bit],(0)))");
+
+                entity.Property(e => e.ShipToCode)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("SHIP_TO_CODE")
+                    .IsFixedLength();
+            });
+
+        modelBuilder.Entity<MasterMaintainCustomerCoaOption>(entity =>
+            {
+                entity.HasKey(e => e.CustomerCoaOptionId)
+                    .HasName("PK__MASTER_C__8E71B5A803ABB44D");
+
+                entity.ToTable("MASTER_CUSTOMER_COA_OPTION");
+
+                entity.Property(e => e.CustomerCoaOptionId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("CUSTOMER_COA_OPTION_ID");
 
                 entity.Property(e => e.CoaFooterText)
                     .HasColumnName("COA_FOOTER_TEXT")
                     .HasDefaultValueSql("('')");
+
+                entity.Property(e => e.CustomerCode)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("CUSTOMER_CODE")
+                    .IsFixedLength();
 
                 entity.Property(e => e.CustomerName)
                     .HasMaxLength(100)
@@ -140,9 +153,14 @@ namespace SCGP.COA.DATAACCESS.Contexts
                 entity.Property(e => e.DefaultOutputPdf).HasColumnName("DEFAULT_OUTPUT_PDF");
 
                 entity.Property(e => e.DefaultOutputText).HasColumnName("DEFAULT_OUTPUT_TEXT");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasColumnName("IS_ACTIVE")
+                    .HasDefaultValueSql("(CONVERT([bit],(0)))");
             });
 
-            modelBuilder.Entity<MasterForm>(entity =>
+            modelBuilder.Entity<MasterMaintainForm>(entity =>
             {
                 entity.HasKey(e => e.FormId)
                     .HasName("PK__MASTER_F__85052F68235A6657");
@@ -156,6 +174,11 @@ namespace SCGP.COA.DATAACCESS.Contexts
                     .HasColumnName("FORM_NAME");
 
                 entity.Property(e => e.FormTemplateId).HasColumnName("FORM_TEMPLATE_ID");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasColumnName("IS_ACTIVE")
+                    .HasDefaultValueSql("(CONVERT([bit],(0)))");
 
                 entity.Property(e => e.Property01Id).HasColumnName("PROPERTY01_ID");
 
@@ -196,18 +219,133 @@ namespace SCGP.COA.DATAACCESS.Contexts
                 entity.Property(e => e.Property19Id).HasColumnName("PROPERTY19_ID");
 
                 entity.Property(e => e.Property20Id).HasColumnName("PROPERTY20_ID");
+
+                entity.HasOne(d => d.FormTemplate)
+                    .WithMany(p => p.MasterForms)
+                    .HasForeignKey(d => d.FormTemplateId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MASTER_FORM_MASTER_FORM_TEMPLATE");
+
+                entity.HasOne(d => d.Property01)
+                    .WithMany(p => p.MasterFormProperty01s)
+                    .HasForeignKey(d => d.Property01Id)
+                    .HasConstraintName("FK_MASTER_FORM_MASTER_PROPERTY1");
+
+                entity.HasOne(d => d.Property02)
+                    .WithMany(p => p.MasterFormProperty02s)
+                    .HasForeignKey(d => d.Property02Id)
+                    .HasConstraintName("FK_MASTER_FORM_MASTER_PROPERTY2");
+
+                entity.HasOne(d => d.Property03)
+                    .WithMany(p => p.MasterFormProperty03s)
+                    .HasForeignKey(d => d.Property03Id)
+                    .HasConstraintName("FK_MASTER_FORM_MASTER_PROPERTY3");
+
+                entity.HasOne(d => d.Property04)
+                    .WithMany(p => p.MasterFormProperty04s)
+                    .HasForeignKey(d => d.Property04Id)
+                    .HasConstraintName("FK_MASTER_FORM_MASTER_PROPERTY4");
+
+                entity.HasOne(d => d.Property05)
+                    .WithMany(p => p.MasterFormProperty05s)
+                    .HasForeignKey(d => d.Property05Id)
+                    .HasConstraintName("FK_MASTER_FORM_MASTER_PROPERTY5");
+
+                entity.HasOne(d => d.Property06)
+                    .WithMany(p => p.MasterFormProperty06s)
+                    .HasForeignKey(d => d.Property06Id)
+                    .HasConstraintName("FK_MASTER_FORM_MASTER_PROPERTY6");
+
+                entity.HasOne(d => d.Property07)
+                    .WithMany(p => p.MasterFormProperty07s)
+                    .HasForeignKey(d => d.Property07Id)
+                    .HasConstraintName("FK_MASTER_FORM_MASTER_PROPERTY7");
+
+                entity.HasOne(d => d.Property08)
+                    .WithMany(p => p.MasterFormProperty08s)
+                    .HasForeignKey(d => d.Property08Id)
+                    .HasConstraintName("FK_MASTER_FORM_MASTER_PROPERTY8");
+
+                entity.HasOne(d => d.Property09)
+                    .WithMany(p => p.MasterFormProperty09s)
+                    .HasForeignKey(d => d.Property09Id)
+                    .HasConstraintName("FK_MASTER_FORM_MASTER_PROPERTY9");
+
+                entity.HasOne(d => d.Property10)
+                    .WithMany(p => p.MasterFormProperty10s)
+                    .HasForeignKey(d => d.Property10Id)
+                    .HasConstraintName("FK_MASTER_FORM_MASTER_PROPERTY10");
+
+                entity.HasOne(d => d.Property11)
+                    .WithMany(p => p.MasterFormProperty11s)
+                    .HasForeignKey(d => d.Property11Id)
+                    .HasConstraintName("FK_MASTER_FORM_MASTER_PROPERTY11");
+
+                entity.HasOne(d => d.Property12)
+                    .WithMany(p => p.MasterFormProperty12s)
+                    .HasForeignKey(d => d.Property12Id)
+                    .HasConstraintName("FK_MASTER_FORM_MASTER_PROPERTY12");
+
+                entity.HasOne(d => d.Property13)
+                    .WithMany(p => p.MasterFormProperty13s)
+                    .HasForeignKey(d => d.Property13Id)
+                    .HasConstraintName("FK_MASTER_FORM_MASTER_PROPERTY13");
+
+                entity.HasOne(d => d.Property14)
+                    .WithMany(p => p.MasterFormProperty14s)
+                    .HasForeignKey(d => d.Property14Id)
+                    .HasConstraintName("FK_MASTER_FORM_MASTER_PROPERTY14");
+
+                entity.HasOne(d => d.Property15)
+                    .WithMany(p => p.MasterFormProperty15s)
+                    .HasForeignKey(d => d.Property15Id)
+                    .HasConstraintName("FK_MASTER_FORM_MASTER_PROPERTY15");
+
+                entity.HasOne(d => d.Property16)
+                    .WithMany(p => p.MasterFormProperty16s)
+                    .HasForeignKey(d => d.Property16Id)
+                    .HasConstraintName("FK_MASTER_FORM_MASTER_PROPERTY16");
+
+                entity.HasOne(d => d.Property17)
+                    .WithMany(p => p.MasterFormProperty17s)
+                    .HasForeignKey(d => d.Property17Id)
+                    .HasConstraintName("FK_MASTER_FORM_MASTER_PROPERTY17");
+
+                entity.HasOne(d => d.Property18)
+                    .WithMany(p => p.MasterFormProperty18s)
+                    .HasForeignKey(d => d.Property18Id)
+                    .HasConstraintName("FK_MASTER_FORM_MASTER_PROPERTY18");
+
+                entity.HasOne(d => d.Property19)
+                    .WithMany(p => p.MasterFormProperty19s)
+                    .HasForeignKey(d => d.Property19Id)
+                    .HasConstraintName("FK_MASTER_FORM_MASTER_PROPERTY19");
+
+                entity.HasOne(d => d.Property20)
+                    .WithMany(p => p.MasterFormProperty20s)
+                    .HasForeignKey(d => d.Property20Id)
+                    .HasConstraintName("FK_MASTER_FORM_MASTER_PROPERTY20");
             });
 
-            modelBuilder.Entity<MasterFormFooter>(entity =>
+            modelBuilder.Entity<MasterMaintainFooter>(entity =>
             {
-                entity.HasKey(e => e.FormId)
+                entity.HasKey(e => e.FooterId)
                     .HasName("PK__MASTER_F__85052F689EF24B51");
 
-                entity.ToTable("MASTER_FORM_FOOTER");
+                entity.ToTable("MASTER_FOOTER");
 
-                entity.Property(e => e.FormId)
+                entity.Property(e => e.FooterId)
                     .ValueGeneratedNever()
-                    .HasColumnName("FORM_ID");
+                    .HasColumnName("FOOTER_ID");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasColumnName("IS_ACTIVE")
+                    .HasDefaultValueSql("(CONVERT([bit],(0)))");
+
+                entity.Property(e => e.FormName)
+                    .HasMaxLength(20)
+                    .HasColumnName("FORM_NAME");
 
                 entity.Property(e => e.TextAdditional1).HasColumnName("TEXT_ADDITIONAL1");
 
@@ -222,30 +360,39 @@ namespace SCGP.COA.DATAACCESS.Contexts
                 entity.Property(e => e.TextTestcondition).HasColumnName("TEXT_TESTCONDITION");
             });
 
-            modelBuilder.Entity<MasterFormHeader>(entity =>
+            modelBuilder.Entity<MasterMaintainHeader>(entity =>
             {
-                entity.HasKey(e => e.FormTemplateId)
+                entity.HasKey(e => e.HeaderId)
                     .HasName("PK__MASTER_F__D1C4DC3E5591C006");
 
-                entity.ToTable("MASTER_FORM_HEADER");
+                entity.ToTable("MASTER_HEADER");
 
-                entity.Property(e => e.FormTemplateId)
+                entity.Property(e => e.HeaderId)
                     .ValueGeneratedNever()
                     .HasColumnName("FORM_TEMPLATE_ID");
+
+                entity.Property(e => e.FormName)
+                    .HasMaxLength(20)
+                    .HasColumnName("FORM_NAME");
 
                 entity.Property(e => e.DatetimeFormat)
                     .HasMaxLength(30)
                     .HasColumnName("DATETIME_FORMAT");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasColumnName("IS_ACTIVE")
+                    .HasDefaultValueSql("(CONVERT([bit],(0)))");
             });
 
-            modelBuilder.Entity<MasterFormMappingRule>(entity =>
+            modelBuilder.Entity<MasterMaintainFormCoa>(entity =>
             {
-                entity.HasKey(e => e.RuleId)
+                entity.HasKey(e => e.FormCoaId)
                     .HasName("PK__MASTER_F__E103520CA4DBCEB5");
 
-                entity.ToTable("MASTER_FORM_MAPPING_RULES");
+                entity.ToTable("MASTER_FORM_COA");
 
-                entity.Property(e => e.RuleId).HasColumnName("RULE_ID");
+                entity.Property(e => e.FormCoaId).HasColumnName("FORM_COA_ID");
 
                 entity.Property(e => e.CustomerCode)
                     .HasMaxLength(10)
@@ -268,14 +415,19 @@ namespace SCGP.COA.DATAACCESS.Contexts
                     .HasColumnType("numeric(3, 0)")
                     .HasColumnName("GRAM");
 
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasColumnName("IS_ACTIVE")
+                    .HasDefaultValueSql("(CONVERT([bit],(0)))");
+
                 entity.Property(e => e.MaterialSale)
                     .HasMaxLength(1)
                     .HasColumnName("MATERIAL_SALE")
                     .IsFixedLength();
 
-                entity.Property(e => e.RuleOrder).HasColumnName("RULE_ORDER");
+                entity.Property(e => e.SequenceNo).HasColumnName("SEQUENCE_NO");
             });
-            modelBuilder.Entity<MasterProperty>(entity =>
+            modelBuilder.Entity<MasterMaintainProperty>(entity =>
             {
                 entity.HasKey(e => e.PropertyId)
                     .HasName("PK__MASTER_P__DD51AF0B5412FDD2");
@@ -287,6 +439,11 @@ namespace SCGP.COA.DATAACCESS.Contexts
                 entity.Property(e => e.DisplayName)
                     .HasMaxLength(50)
                     .HasColumnName("DISPLAY_NAME");
+
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasColumnName("IS_ACTIVE")
+                    .HasDefaultValueSql("(CONVERT([bit],(0)))");
 
                 entity.Property(e => e.OutputFormat)
                     .HasMaxLength(50)
@@ -314,7 +471,7 @@ namespace SCGP.COA.DATAACCESS.Contexts
                     .HasMaxLength(20)
                     .HasColumnName("FORM_TEMPLATE_NAME");
             });
-            modelBuilder.Entity<MasterSiamToppanGrade>(entity =>
+            modelBuilder.Entity<MasterMaintainSiamToppanGrade>(entity =>
             {
                 entity.HasKey(e => e.SiamToppanGradeId)
                     .HasName("PK__MASTER_S__3B5452A6D3712AA1");
@@ -332,14 +489,14 @@ namespace SCGP.COA.DATAACCESS.Contexts
                     .HasColumnType("numeric(3, 0)")
                     .HasColumnName("GRAM");
 
-                entity.Property(e => e.MaterialSale)
-                    .HasMaxLength(1)
-                    .HasColumnName("MATERIAL_SALE")
-                    .IsFixedLength();
+                entity.Property(e => e.IsActive)
+                    .IsRequired()
+                    .HasColumnName("IS_ACTIVE")
+                    .HasDefaultValueSql("(CONVERT([bit],(0)))");
 
-                entity.Property(e => e.Remarks)
+                entity.Property(e => e.Remark)
                     .HasMaxLength(10)
-                    .HasColumnName("REMARKS")
+                    .HasColumnName("REMARK")
                     .IsFixedLength();
 
                 entity.Property(e => e.SiamToppanNumber)
@@ -401,15 +558,16 @@ namespace SCGP.COA.DATAACCESS.Contexts
         public DbSet<REFRESH_TOKEN> REFRESH_TOKENS { get; set; }
 
         public virtual DbSet<LogCoa> LogCoas { get; set; } = null!;
-        public virtual DbSet<MasterAutoCoaCustomer> MasterAutoCoaCustomers { get; set; } = null!;
-        public virtual DbSet<MasterCustomer> MasterCustomers { get; set; } = null!;
-        public virtual DbSet<MasterForm> MasterForms { get; set; } = null!;
-        public virtual DbSet<MasterFormFooter> MasterFormFooters { get; set; } = null!;
-        public virtual DbSet<MasterFormHeader> MasterFormHeaders { get; set; } = null!;
-        public virtual DbSet<MasterFormMappingRule> MasterFormMappingRules { get; set; } = null!;
-        public virtual DbSet<MasterFormTemplate> MasterFormTemplates { get; set; } = null!;
-        public virtual DbSet<MasterProperty> MasterProperties { get; set; } = null!;
-        public virtual DbSet<MasterSiamToppanGrade> MasterSiamToppanGrades { get; set; } = null!;
+        public virtual DbSet<MasterMaintainAutoCoa> MASTER_MAINTAIN_AUTO_COA { get; set; } = null!;
+        public virtual DbSet<MasterMaintainCustomerCoaOption> MASTER_MAINTAIN_CUSTOMER_COA_OPTION { get; set; } = null!;
+        public virtual DbSet<MasterMaintainForm> MASTER_MAINTAIN_FORM { get; set; } = null!;
+        public virtual DbSet<MasterMaintainFooter> MASTER_MAINTAIN_FOOTER { get; set; } = null!;
+        public virtual DbSet<MasterMaintainHeader> MASTER_MAINTAIN_HEADER { get; set; } = null!;
+        public virtual DbSet<MasterMaintainFormCoa> MASTER_MAINTAIN_FORM_COA { get; set; } = null!;
+        public virtual DbSet<MasterFormTemplate> MASTER_MAINTAIN_FORM_TEMPLATE { get; set; } = null!;
+        public virtual DbSet<MasterMaintainProperty> MASTER_MAINTAIN_PROPERTY { get; set; } = null!;
+        public virtual DbSet<MasterMaintainSiamToppanGrade> MASTER_MAINTAIN_SIAM_TOPPAN_GRADE { get; set; } = null!;
+        public virtual DbSet<MasterDatabase> MASTER_DATABASE { get; set; } = null!;
         public virtual DbSet<ConvertingBatchDatum> ConvertingBatchData { get; set; } = null!;
         #endregion Master
 

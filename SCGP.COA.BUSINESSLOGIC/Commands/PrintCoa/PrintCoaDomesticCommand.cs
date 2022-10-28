@@ -170,7 +170,7 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
                 }
                 return dataModels;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }
@@ -439,6 +439,7 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
         {
             try
             {
+                //Update 28/10/2022 12:48:28
                 string html = "";
                 var center = new HTMLPropertyModel(HPROP.CLASS, "center");
                 html += HTMLUtil.OpenTag(HTAG.TABLE, null, null);
@@ -454,8 +455,10 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
                 }
                 html += HTMLUtil.CloseTag(HTAG.TR);
                 html += HTMLUtil.CloseTag(HTAG.THERD);
-                html += HTMLUtil.OpenTag(HTAG.TBODY, null, null);
 
+
+
+                html += HTMLUtil.OpenTag(HTAG.TBODY, null, null);
                 html += HTMLUtil.OpenTag(HTAG.TR, null);
                 html += HTMLUtil.SetTag(HTAG.TD, source, null, center);
                 foreach (DataRow oRow in oData.Rows)
@@ -688,6 +691,7 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
             {
                 var oBatchData = CallSP_BatchData(_configuration, sBatchNum);
                 var oLabData = CallSP_LabData(_configuration, sBatchNum);
+
                 if (oLabData.Rows.Count > 0)
                 {
                     foreach (DataRow oRow in oLabData.Select("PropertyName in('BW','CAL','RC','CMT','Brightness','Whiteness','QI')"))

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SCGP.COA.DATAACCESS.Contexts;
 
@@ -11,9 +12,10 @@ using SCGP.COA.DATAACCESS.Contexts;
 namespace SCGP.COA.DATAACCESS.Migrations
 {
     [DbContext(typeof(DbDataContext))]
-    partial class DbDataContextModelSnapshot : ModelSnapshot
+    [Migration("20221026025939_Master")]
+    partial class Master
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -144,7 +146,7 @@ namespace SCGP.COA.DATAACCESS.Migrations
 
                     b.HasKey("DatabaseId");
 
-                    b.ToTable("MASTER_DATABASE");
+                    b.ToTable("MasterDatabase");
                 });
 
             modelBuilder.Entity("SCGP.COA.DATAACCESS.Entities.Coa.MASTER_MAINTAIN_AUTO_COA", b =>
@@ -163,10 +165,7 @@ namespace SCGP.COA.DATAACCESS.Migrations
                         .HasColumnType("bit")
                         .HasColumnName("AUTOCOA_ACTIVE");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ShipToCode")
+                    b.Property<string>("ShiptoCode")
                         .HasMaxLength(10)
                         .IsUnicode(false)
                         .HasColumnType("char(10)")
@@ -226,9 +225,6 @@ namespace SCGP.COA.DATAACCESS.Migrations
                         .HasColumnType("bit")
                         .HasColumnName("DEFAULT_OUTPUT_TEXT");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
                     b.HasKey("CustomerCode")
                         .HasName("PK__MASTER_C__8E71B5A803ABB44D");
 
@@ -240,9 +236,6 @@ namespace SCGP.COA.DATAACCESS.Migrations
                     b.Property<int>("FooterId")
                         .HasColumnType("int")
                         .HasColumnName("FORM_ID");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<string>("TextAdditional1")
                         .HasColumnType("nvarchar(max)")
@@ -292,9 +285,6 @@ namespace SCGP.COA.DATAACCESS.Migrations
                     b.Property<int>("FormTemplateId")
                         .HasColumnType("int")
                         .HasColumnName("FORM_TEMPLATE_ID");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<int?>("Property01Id")
                         .HasColumnType("int")
@@ -420,9 +410,6 @@ namespace SCGP.COA.DATAACCESS.Migrations
                         .HasColumnType("numeric(3,0)")
                         .HasColumnName("GRAM");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
                     b.Property<string>("MaterialSale")
                         .HasMaxLength(1)
                         .HasColumnType("nchar(1)")
@@ -439,27 +426,6 @@ namespace SCGP.COA.DATAACCESS.Migrations
                     b.ToTable("MASTER_FORM_MAPPING_RULES", (string)null);
                 });
 
-            modelBuilder.Entity("SCGP.COA.DATAACCESS.Entities.Coa.MASTER_MAINTAIN_FORM_TEMPLATE", b =>
-                {
-                    b.Property<int>("FormTemplateId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("FORM_TEMPLATE_ID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FormTemplateId"), 1L, 1);
-
-                    b.Property<string>("FormTemplateName")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("FORM_TEMPLATE_NAME");
-
-                    b.HasKey("FormTemplateId")
-                        .HasName("PK__MASTER_F__D1C4DC3E91F43A39");
-
-                    b.ToTable("MASTER_FORM_TEMPLATE", (string)null);
-                });
-
             modelBuilder.Entity("SCGP.COA.DATAACCESS.Entities.Coa.MASTER_MAINTAIN_HEADER", b =>
                 {
                     b.Property<int>("HeaderId")
@@ -471,9 +437,6 @@ namespace SCGP.COA.DATAACCESS.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)")
                         .HasColumnName("DATETIME_FORMAT");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.HasKey("HeaderId")
                         .HasName("PK__MASTER_F__D1C4DC3E5591C006");
@@ -495,9 +458,6 @@ namespace SCGP.COA.DATAACCESS.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("DISPLAY_NAME");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<string>("OutputFormat")
                         .IsRequired()
@@ -542,9 +502,6 @@ namespace SCGP.COA.DATAACCESS.Migrations
                     b.Property<decimal?>("Gram")
                         .HasColumnType("numeric(3,0)")
                         .HasColumnName("GRAM");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Remark")
                         .HasMaxLength(10)
@@ -858,6 +815,27 @@ namespace SCGP.COA.DATAACCESS.Migrations
                     b.HasIndex("Token");
 
                     b.ToTable("REFRESH_TOKENS", (string)null);
+                });
+
+            modelBuilder.Entity("SCGP.COA.DATAACCESS.Entities.Coa.MasterFormTemplate", b =>
+                {
+                    b.Property<int>("FormTemplateId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("FORM_TEMPLATE_ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FormTemplateId"), 1L, 1);
+
+                    b.Property<string>("FormTemplateName")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("FORM_TEMPLATE_NAME");
+
+                    b.HasKey("FormTemplateId")
+                        .HasName("PK__MASTER_F__D1C4DC3E91F43A39");
+
+                    b.ToTable("MASTER_FORM_TEMPLATE", (string)null);
                 });
 
             modelBuilder.Entity("SCGP.COA.DATAACCESS.Entities.Coa.Master.Autthorization.MASTER_GROUP_ROLE", b =>
