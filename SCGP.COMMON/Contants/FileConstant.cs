@@ -5,6 +5,7 @@
         public class Template
         {
             public const string Location = "\\Files\\Template\\";
+            public const string UploadFTP = "\\Files\\FTP\\";
             public const string PrintCoaExport = "SCGP_COA_Template_PrintExport.xlsx";
         }
     }

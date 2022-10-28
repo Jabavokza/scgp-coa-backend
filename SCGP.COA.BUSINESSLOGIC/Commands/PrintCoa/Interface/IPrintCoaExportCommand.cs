@@ -11,5 +11,6 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa.Interface
         //FileDataModel ExportExcel();
         public List<FileDataModel> PrintExport(ControllerContext controllerContext, CoaPrintExportExecuteModel coaPrintModel);
         public List<FileDataModel> SaveExport(ControllerContext controllerContext, CoaPrintExportExecuteModel coaPrintModel);
+        public Task<Dictionary<string, Dictionary<string, string[]>>> GetDPNumberDataAsync(IConfiguration _configuration, CoaPrintExportSearchModel param);
     }
 }

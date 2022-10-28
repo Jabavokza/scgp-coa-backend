@@ -25,18 +25,16 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.ExportCoa
                 throw oEx;
             }
         }
-        public static DataTable SP_CallSP( string ptConStr, string ptSPName, string? ptBatch)
+        public static DataTable SP_CallSP( string ptConStr, string ptSPName,string ptParaName, string? ptBatch)
         {
             try
             {
                 var oDbTbl = new DataTable();
-                using SqlConnection con = new SqlConnection(ptConStr);
-                using SqlCommand cmd = new SqlCommand(ptSPName, con);
+                using SqlConnection con = new(ptConStr);
+                using SqlCommand cmd = new(ptSPName, con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@BATCH_NUMBER", SqlDbType.VarChar).Value = ptBatch;
-                con.Open();
-                cmd.ExecuteNonQuery();
-                var adapter = new SqlDataAdapter(cmd);
+                cmd.Parameters.Add(ptParaName, SqlDbType.VarChar).Value = ptBatch;
+                using var adapter = new SqlDataAdapter(cmd);
                 adapter.Fill(oDbTbl);
                 return oDbTbl;
             }

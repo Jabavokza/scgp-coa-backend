@@ -9,10 +9,10 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa.Interface
     {
         //FileDataModel ExportPdf(ControllerContext controllerContext);
         //FileDataModel ExportExcel();
-        public List<FileDataModel> PrintExport(ControllerContext controllerContext, CoaPrintDomesticExecuteModel coaPrintModel);
-        public List<FileDataModel> SaveExport(ControllerContext controllerContext, CoaPrintDomesticExecuteModel coaPrintModel);
+        public Task<List<FileDataModel>> PrintExport(ControllerContext controllerContext, IConfiguration _configuration, CoaPrintDomesticExecuteModel coaPrintModel);
+        public Task<List<FileDataModel>> SaveExport(ControllerContext controllerContext, IConfiguration _configuration, CoaPrintDomesticExecuteModel coaPrintModel);
 
         //   public List<CoaPrintDomesticDataModel> GetDPNumberDataAsync(CoaPrintDomesticSearchModel param);
-        public  Task<List<CoaPrintDomesticDataModel>> GetDPNumberDataAsync(IConfiguration _configuration, CoaPrintDomesticSearchModel param);
+        public Task<List<CoaPrintDomesticDataModel>> GetDPNumberDataAsync(IConfiguration _configuration, CoaPrintDomesticSearchModel param);
     }
 }

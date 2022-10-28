@@ -25,7 +25,7 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.AutoCoa
         {
             try
             {
-                var query = _db.LogCoas.AsQueryable();
+                var query = _db.LogCoas.AsQueryable(); 
 
                 if (request.jobTimestampFrom.HasValue)
                 {

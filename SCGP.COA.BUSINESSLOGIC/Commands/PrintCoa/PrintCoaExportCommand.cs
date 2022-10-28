@@ -17,6 +17,11 @@ using OfficeOpenXml;
 using SCGP.COA.DATAACCESS.Repositories.Coa.Laminate.Interface;
 using SCGP.COA.DATAACCESS.Models;
 using SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa.Interface;
+using SAP_Interface_DeliveryNum;
+using SCGP.COA.DATAACCESS.Repositories.Coa.ExportCoa;
+using SCGP.COA.DATAACCESS.Entities.Coa;
+using SCGP.COA.DATAACCESS.Repositories.Coa.ExportCoa.Interfece;
+using System.Data;
 
 namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
 {
@@ -29,12 +34,14 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
         private readonly IWebHostEnvironment _environment;
         private readonly IFileService _fileService;
         private ILaminateRepo _laminateRepo;
+        private IExportCoaRepo _exportCoaRepo;
         public PrintCoaExportCommand(CoaSkicPM17GypsumRepo.ICoaFormRepository coaSkicPM17Gypsum_coaFormRepository
             , CoaSkicPM1to3Repo.ICoaFormRepository coaSkicPM1to3_coaFormRepository
             , IPdfService pdfService
             , IWebHostEnvironment environment
             , IFileService fileService
-            , ILaminateRepo laminateRepo)
+            , ILaminateRepo laminateRepo
+            , IExportCoaRepo exportCoaRepo)
         {
             _coaSkicPM17Gypsum_coaFormRepository = coaSkicPM17Gypsum_coaFormRepository;
             _coaSkicPM1to3_coaFormRepository = coaSkicPM1to3_coaFormRepository;
@@ -42,6 +49,148 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
             _environment = environment;
             _fileService = fileService;
             _laminateRepo = laminateRepo;
+            _exportCoaRepo = exportCoaRepo;
+        }
+
+        public async Task<Dictionary<string, Dictionary<string, string[]>>> GetDPNumberDataAsync(IConfiguration _configuration, CoaPrintExportSearchModel param)
+        {
+            try
+            {
+                var MockData = true;
+                if (!MockData)
+                {
+                    var oClient1 = new SI_DeliveryInquiry_OSClient(SI_DeliveryInquiry_OSClient.EndpointConfiguration.HTTPS_Port);
+                    oClient1.ClientCredentials.UserName.UserName = "...";
+                    oClient1.ClientCredentials.UserName.Password = "...";
+                    oClient1.OpenAsync().Wait();
+                    List<CoaPrintDomesticDataModel> oDataModels = new();
+                    List<DTDeliveryInquiryResItems> oDTDeliveryInquiryResItems = new();
+                    var oTasks = new List<Task>();
+                    oTasks.Add(Task.Run(async () =>
+                    {
+
+                        var aDpNumberStart = param.dpNumberStart!.Split('-');
+                        var nDpNumberStart = int.Parse(aDpNumberStart[1]);
+                        var nLength = aDpNumberStart[1].Length;
+                        var aDpNumberEnd = param.dpNumberEnd!.Split('-');
+                        var nDpNumberEnd = int.Parse(aDpNumberEnd[1]);
+
+                        var sPrefig = aDpNumberStart[0] + "-";
+                        var aDpNumber = new List<string>();
+                        var nDpNumber = (nDpNumberEnd + 1) - nDpNumberStart;
+                        var sDigit = "";
+                        for (int j = 1; j < nLength; j++) { sDigit += "0"; }
+                        for (int i = 0; i < nDpNumber; i++)
+                        {
+                            switch (nDpNumberStart + i)
+                            {
+                                case < 10: aDpNumber.Add(sPrefig + sDigit + (nDpNumberStart + i).ToString()); break;
+                                case < 100: aDpNumber.Add(sPrefig + sDigit.Remove(sDigit.Length - 1) + (nDpNumberStart + i).ToString()); break;
+                                case < 1000: aDpNumber.Add(sPrefig + sDigit.Remove(sDigit.Length - 2) + (nDpNumberStart + i).ToString()); break;
+                                case < 10000: aDpNumber.Add(sPrefig + sDigit.Remove(sDigit.Length - 3) + (nDpNumberStart + i).ToString()); break;
+                                case < 100000: aDpNumber.Add(sPrefig + sDigit.Remove(sDigit.Length - 4) + (nDpNumberStart + i).ToString()); break;
+                                case < 1000000: aDpNumber.Add(sPrefig + sDigit.Remove(sDigit.Length - 5) + (nDpNumberStart + i).ToString()); break;
+                                case < 10000000: aDpNumber.Add(sPrefig + sDigit.Remove(sDigit.Length - 6) + (nDpNumberStart + i).ToString()); break;
+                            }
+                        }
+                        foreach (var sDpNumber in aDpNumber)
+                        {
+                            var oReqData = new DT_DeliveryInquiryReq();
+                            //oReqData.PI = param.piNumber;
+                            //oReqData.eo - param.eoNumber;
+                            oReqData.IV_DELIVERY_NUMBER = sDpNumber;
+                            var oResData = await oClient1.SI_DeliveryInquiry_OSAsync(oReqData);
+                            var oData = oResData.MT_DeliveryInquiryRes;
+                            if (oData.ET_LIKP.Length > 0)
+                            {
+                                oDTDeliveryInquiryResItems.Add(new DTDeliveryInquiryResItems
+                                {
+                                    DeliveryNum = sDpNumber,
+                                    MaterialNum = oData.ET_LIPS.Select(x => x.MATNR).ToString(),
+                                    BatchNum = oData.ET_LIPS.Select(x => x.CHARG).ToString(),
+                                });
+                                CallStoreProcedure(_configuration, oData.ET_LIPS.Select(x => x.CHARG).ToString());
+                                oDataModels.Add(new CoaPrintDomesticDataModel { dpNumberId = sDpNumber, dpNumberName = sDpNumber });
+                            }
+                            else
+                                continue;
+                        }
+                        oClient1.Close();
+                    }));
+                    await Task.WhenAll(oTasks.ToArray());
+                    return  new Dictionary<string, Dictionary<string, string[]>>(); ;
+                }
+                else
+                {
+                    // Mock Data -----------------------
+                    var o = new Dictionary<string, string[]>();
+                    o.Add("EO-001", new string[] { "DP-001", "DP-002", "DP-003" });
+                    o.Add("EO-002", new string[] { "DP-004", "DP-005", "DP-006" });
+                    o.Add("EO-003", new string[] { "DP-007", "DP-008", "DP-009" });
+
+                    var PI = new Dictionary<string, Dictionary<string, string[]>>();
+                    PI.Add("PO-001", o);
+                    return PI;
+                    //----------------------------------
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        private void CallStoreProcedure(IConfiguration _configuration, string? tBatch)
+        {
+            try
+            {
+                var sDbDataContext = _configuration.GetConnectionString("DbDataContext");
+                var sParaName = "@BATCH_NUMBER";
+                var sSPName = "@sp_COA_GET_BATCH_DATA";
+                var oResData = SqlConnectDb.SP_CallSP(sDbDataContext, sSPName, sParaName, tBatch);
+                if (oResData.Rows.Count > 0)
+                {
+                    SetDtBatchToDtTbl(oResData);
+                }
+                else
+                {
+                    // “ไม่พบข้อมูล Batch Number ["+tBatch+"] ใน database PLS”.
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        private void SetDtBatchToDtTbl(DataTable oResData)
+        {
+            try
+            {
+                var list = new List<ConvertingBatchDatum>();
+                foreach (DataRow oRow in oResData.Rows)
+                {
+                    list.Add(new ConvertingBatchDatum
+                    {
+                        Batch = oRow["BATCH"].ToString()!,
+                        Grade = oRow["GRADE"].ToString()!,
+                        Gram = (decimal)oRow["GRAM"],
+                        ProductionDate = DateTime.Parse(oRow["PRODUCTION_DATE"].ToString()!),
+                        FilmThickness = (double)oRow["FILM_THICKNESS"],
+                        Porosity = (double)oRow["POROSITY"],
+                        UploadedDatetime = DateTime.Parse(oRow["UPLOADED_DATETIME"].ToString()!)
+                    });
+                }
+                var result = _exportCoaRepo.SetDtBatchToDtTblRepo(list);
+                //if (result)
+                //{
+                //    return dataLabModels;
+                //}
+                //else
+                //    return new List<DataLabModel>();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
         public List<FileDataModel> PrintExport(ControllerContext controllerContext, CoaPrintExportExecuteModel coaPrintModel)
         {
@@ -132,7 +281,6 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
             }
 
         }
-
         private string GeneratePdfDataTableExport(string source, List<PrintCoaDataModel> data)
         {
             try
@@ -169,7 +317,6 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
             }
 
         }
-
         private byte[] GeneratePdf(ControllerContext controllerContext, PrintCoaExportPdfModel data)
         {
             try

@@ -34,20 +34,27 @@ namespace SCGP.COA.API.Controllers
         }
         [HttpPost]
         //[Authorize(Roles = RoleConstant.PrintCoaExport)]
-        public ResponseResult<List<FileDataModel>> Print([FromBody] CoaPrintDomesticExecuteModel param) 
+        public async Task<ResponseResult<List<FileDataModel>>> Print([FromBody] CoaPrintDomesticExecuteModel param) 
         {
-            var result = _printCoaDomesticCommand.PrintExport(this.ControllerContext, param);
+            var result =await _printCoaDomesticCommand.PrintExport(this.ControllerContext, _configuration, param);
             return ResponseResult<List<FileDataModel>>.Success(result);
         }
 
         [HttpPost]
 
         //[Authorize(Roles = RoleConstant.PrintCoaExport)]
-        public ResponseResult<List<FileDataModel>>Save([FromBody] CoaPrintDomesticExecuteModel param)
+        public async Task<ResponseResult<List<FileDataModel>>>Save([FromBody] CoaPrintDomesticExecuteModel param)
         {
-            var result = _printCoaDomesticCommand.SaveExport(this.ControllerContext, param);
+            var result =await _printCoaDomesticCommand.SaveExport(this.ControllerContext, _configuration, param);
             return ResponseResult<List<FileDataModel>>.Success(result);
         }
+        //[HttpPost]
 
+        ////[Authorize(Roles = RoleConstant.PrintCoaExport)]
+        //public ResponseResult<List<FileDataModel>> DomesticCoa([FromBody] CoaPrintDomesticExecuteModel param)
+        //{
+        //    var result = _printCoaDomesticCommand.DomesticCoa(this.ControllerContext, _configuration, param);
+        //    return ResponseResult<List<FileDataModel>>.Success(result);
+        //}
     }
 }
