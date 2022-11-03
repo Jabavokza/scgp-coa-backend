@@ -11,6 +11,7 @@ using SCGP.COA.DATAACCESS.Contexts;
 using SCGP.COA.DATAACCESS.Infrastructures;
 using SixLabors.ImageSharp;
 using Swashbuckle.AspNetCore.Swagger;
+using System.Net;
 using System.Text;
 using Wkhtmltopdf.NetCore;
 
@@ -28,6 +29,9 @@ var commandTimeout = builder.Configuration["CommandTimeout"];
 int timeoutValue = 30;
 if (commandTimeout != null)
     timeoutValue = Convert.ToInt32(commandTimeout);
+
+ServicePointManager.SecurityProtocol =
+SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 
 #region database
 

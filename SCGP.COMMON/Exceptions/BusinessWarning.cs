@@ -8,5 +8,10 @@ namespace SCGP.COA.COMMON.Exceptions
         {
 
         }
+        //public static List<string> MsgWarning(string msg, Exception ex = null) 
+        //{
+        //    List<string> list = new List<string>();
+        //    return list;
+        //}
     }
 }

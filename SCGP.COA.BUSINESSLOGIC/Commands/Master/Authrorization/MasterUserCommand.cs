@@ -128,9 +128,7 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.Master
                 var group = MASTER_USER_GROUP.Create(dbUser.UserId, userModel.GroupId.Value);
                 _userGroupRepository.Add(group);
             }
-
             _userRepository.Commit();
-
         }
 
         public void SetInActive(UserSearchResultModel userModel)

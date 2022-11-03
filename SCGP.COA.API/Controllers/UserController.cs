@@ -15,7 +15,7 @@ namespace SCGP.COA.API.Controllers
     [Route("api/[controller]/[action]")]
     [ApiController]
     [ApiException]
-   // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UserController : ControllerBase
     {
         public IMasterUserCommand _masterUserCommand;

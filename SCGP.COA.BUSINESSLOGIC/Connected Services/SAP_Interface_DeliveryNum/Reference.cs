@@ -9876,19 +9876,31 @@ namespace SAP_Interface_DeliveryNum
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }
         
-        private static System.ServiceModel.EndpointAddress GetEndpointAddress(EndpointConfiguration endpointConfiguration)
+        public static System.ServiceModel.EndpointAddress GetEndpointAddress(EndpointConfiguration endpointConfiguration)
         {
-            if ((endpointConfiguration == EndpointConfiguration.HTTP_Port))
+            //if ((endpointConfiguration == EndpointConfiguration.HTTP_Port))
+            //{
+            //    return new System.ServiceModel.EndpointAddress("http://cxqmsg.scg.co.th:8178/XISOAPAdapter/MessageServlet?senderParty=&senderServ" +
+            //            "ice=BS_PAPER_EDN_Q&receiverParty=&receiverService=&interface=SI_DeliveryInquiry_" +
+            //            "OS&interfaceNamespace=urn%3Ascg.co.th%3APAPER%3AEDN%3ADelivery");
+            //}
+            //if ((endpointConfiguration == EndpointConfiguration.HTTPS_Port))
+            //{
+            //    return new System.ServiceModel.EndpointAddress("https://cxqmsg.scg.co.th:53401/XISOAPAdapter/MessageServlet?senderParty=&senderSe" +
+            //            "rvice=BS_PAPER_EDN_Q&receiverParty=&receiverService=&interface=SI_DeliveryInquir" +
+            //            "y_OS&interfaceNamespace=urn%3Ascg.co.th%3APAPER%3AEDN%3ADelivery");
+            //}
+            if ((endpointConfiguration == EndpointConfiguration.Normal))
             {
-                return new System.ServiceModel.EndpointAddress("http://cxqmsg.scg.co.th:8178/XISOAPAdapter/MessageServlet?senderParty=&senderServ" +
-                        "ice=BS_PAPER_EDN_Q&receiverParty=&receiverService=&interface=SI_DeliveryInquiry_" +
-                        "OS&interfaceNamespace=urn%3Ascg.co.th%3APAPER%3AEDN%3ADelivery");
+                return new System.ServiceModel.EndpointAddress("https://swqwd.scg.com/XISOAPAdapter/MessageServlet?senderParty=&senderService=BS_PAPER_AUTODN_Q&receiverParty=&receiverService=&interface=SI_AUTODNDeliveryInquiry_OS&interfaceNamespace=urn:scg.co.th:PAPER:AUTODN:Delivery");
             }
-            if ((endpointConfiguration == EndpointConfiguration.HTTPS_Port))
+            if ((endpointConfiguration == EndpointConfiguration.ForPCBusiness))
             {
-                return new System.ServiceModel.EndpointAddress("https://cxqmsg.scg.co.th:53401/XISOAPAdapter/MessageServlet?senderParty=&senderSe" +
-                        "rvice=BS_PAPER_EDN_Q&receiverParty=&receiverService=&interface=SI_DeliveryInquir" +
-                        "y_OS&interfaceNamespace=urn%3Ascg.co.th%3APAPER%3AEDN%3ADelivery");
+                return new System.ServiceModel.EndpointAddress("https://swqwd.scg.com/XISOAPAdapter/MessageServlet?senderParty=&senderService=BS_PAPER_AUTODN_Q&receiverParty=&receiverService=BS_PEQ_900&interface=SI_AUTODNDeliveryInquiry_OS&interfaceNamespace=urn:scg.co.th:PAPER:AUTODN:Delivery");
+            }
+            if ((endpointConfiguration == EndpointConfiguration.Default))
+            {
+                return new System.ServiceModel.EndpointAddress("https://swqwd.scg.com/XISOAPAdapter/MessageServlet?senderParty=&senderService=BS_PAPER_EDN_Q&receiverParty=&receiverService=&interface=SI_DeliveryInquiry_OS&interfaceNamespace=urn:scg.co.th:PAPER:EDN:Delivery");
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }
@@ -9899,6 +9911,9 @@ namespace SAP_Interface_DeliveryNum
             HTTP_Port,
             
             HTTPS_Port,
+            Normal,
+            ForPCBusiness,
+            Default
         }
     }
 }

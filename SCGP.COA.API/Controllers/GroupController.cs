@@ -15,7 +15,7 @@ namespace SCGP.COA.API.Controllers
     [Route("api/[controller]/[action]")]
     [ApiController]
     [ApiException]
-  //  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class GroupController : ControllerBase
     {
         public IMasterGroupCommand _command;
@@ -34,7 +34,7 @@ namespace SCGP.COA.API.Controllers
         }
 
         [HttpPost]
-       // [Authorize(Roles = RoleConstant.GroupView)]
+        [Authorize(Roles = RoleConstant.GroupView)]
         public async Task<ResponseResult<SearchResModel<GroupSearchResultModel>>> Search([FromBody] SearchReqModel<GroupSearchCriterialModel> param)
         {
             var data = _command.SearchGroup(param);
