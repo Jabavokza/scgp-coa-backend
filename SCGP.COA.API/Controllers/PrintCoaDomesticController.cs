@@ -40,18 +40,20 @@ namespace SCGP.COA.API.Controllers
             return ResponseResult<List<FileDataModel>>.Success(result);
         }
         [HttpPost]
-        [Authorize(Roles = RoleConstant.PrintCoaExport)]
+
+        //[Authorize(Roles = RoleConstant.PrintCoaExport)]
         public async Task<ResponseResult<List<FileDataModel>>>Save([FromBody] CoaPrintDomesticExecuteModel param)
         {
             var result =await _printCoaDomesticCommand.SaveExport(this.ControllerContext, _configuration, param);
             return ResponseResult<List<FileDataModel>>.Success(result);
         }
-        [HttpPost]
-        [Authorize(Roles = RoleConstant.PrintCoaExport)]
-        public async Task<ResponseResult<List<FileDataModel>>> Excute([FromBody] CoaPrintDomesticExecuteModel param)
-        {
-            var result = await _printCoaDomesticCommand.ExcuteData(this.ControllerContext, _configuration, param);
-            return ResponseResult<List<FileDataModel>>.Success(result);
-        }
+        //[HttpPost]
+
+        ////[Authorize(Roles = RoleConstant.PrintCoaExport)]
+        //public ResponseResult<List<FileDataModel>> DomesticCoa([FromBody] CoaPrintDomesticExecuteModel param)
+        //{
+        //    var result = _printCoaDomesticCommand.DomesticCoa(this.ControllerContext, _configuration, param);
+        //    return ResponseResult<List<FileDataModel>>.Success(result);
+        //}
     }
 }
