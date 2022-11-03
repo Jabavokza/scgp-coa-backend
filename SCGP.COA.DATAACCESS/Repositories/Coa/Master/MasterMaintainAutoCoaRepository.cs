@@ -39,6 +39,7 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Authorization
                                 CustomerCode = u.CustomerCode,
                                 ShipToCode = u.ShipToCode,
                                 AutocoaActive = u.AutocoaActive,
+                                editData = false,
                             };
 
                 return query;
@@ -55,8 +56,8 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Authorization
             {
                 MasterMaintainAutoCoa data = new MasterMaintainAutoCoa()
                 {
-                    CustomerCode = request.CustomerCode,
-                    ShipToCode = request.ShipToCode,
+                    CustomerCode = request.CustomerCode.Trim(),
+                    ShipToCode = request.ShipToCode.Trim(),
                     AutocoaActive = request.AutocoaActive,
                     IsActive = true,
                 };
@@ -114,8 +115,8 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Authorization
                                         u.IsActive == true
                                   select u).FirstOrDefault();
 
-                updateData.CustomerCode = request.CustomerCode;
-                updateData.ShipToCode = request.ShipToCode;
+                updateData.CustomerCode = request.CustomerCode.Trim();
+                updateData.ShipToCode = request.ShipToCode.Trim();
                 updateData.AutocoaActive = request.AutocoaActive;
 
                 _db.SaveChanges();

@@ -37,7 +37,7 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Authorization
                             select new MasterMaintainFooterSearchResultModel
                             {
                                 FooterId = u.FooterId,
-                                FormNumber = u.FormName,
+                                FormNumber = u.FormName.Trim(),
                             };
 
                 if (!string.IsNullOrEmpty(request.FormNumber))
@@ -59,13 +59,13 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Authorization
             {
                 MasterMaintainFooter data = new()
                 {
-                    FormName = request.FormNumber,
-                    TextTestcondition = request.TextTestcondition,
-                    TextApprovedby = request.TextApprovedby,
-                    TextPrintedby = request.TextPrintedby,
-                    TextTelnumber = request.TextTelnumber,
-                    TextAdditional1 = request.TextAdditional1,
-                    TextAdditional2 = request.TextAdditional2,
+                    FormName = request.FormNumber.Trim(),
+                    TextTestcondition = request.TextTestcondition.Trim(),
+                    TextApprovedby = request.TextApprovedby.Trim(),
+                    TextPrintedby = request.TextPrintedby.Trim(),
+                    TextTelnumber = request.TextTelnumber.Trim(),
+                    TextAdditional1 = request.TextAdditional1.Trim(),
+                    TextAdditional2 = request.TextAdditional2.Trim(),
                     IsActive = true,
                 };
                 _db.MASTER_MAINTAIN_FOOTER.Add(data);
@@ -131,13 +131,13 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Authorization
                                         u.IsActive == true
                                   select u).FirstOrDefault();
 
-                updateData.FormName = request.FormNumber;
-                updateData.TextTestcondition = request.TextTestcondition;
-                updateData.TextApprovedby = request.TextApprovedby;
-                updateData.TextPrintedby = request.TextPrintedby;
-                updateData.TextTelnumber = request.TextTelnumber;
-                updateData.TextAdditional1 = request.TextAdditional1;
-                updateData.TextAdditional2 = request.TextAdditional2;
+                updateData.FormName = request.FormNumber.Trim();
+                updateData.TextTestcondition = request.TextTestcondition.Trim();
+                updateData.TextApprovedby = request.TextApprovedby.Trim();
+                updateData.TextPrintedby = request.TextPrintedby.Trim();
+                updateData.TextTelnumber = request.TextTelnumber.Trim();
+                updateData.TextAdditional1 = request.TextAdditional1.Trim();
+                updateData.TextAdditional2 = request.TextAdditional2.Trim();
 
                 _db.SaveChanges();
 

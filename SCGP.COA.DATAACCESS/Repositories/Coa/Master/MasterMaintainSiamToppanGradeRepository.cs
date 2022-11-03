@@ -42,6 +42,7 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Authorization
                                 //MaterialSale = u.MaterialSale,
                                 SiamToppanNumber = u.SiamToppanNumber,
                                 Remark = u.Remark,
+                                editData = false
                             };
 
                 return query;
@@ -59,10 +60,10 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Authorization
             {
                 MasterMaintainSiamToppanGrade data = new MasterMaintainSiamToppanGrade()
                 {
-                    Grade = request.Grade,
+                    Grade = request.Grade.Trim(),
                     Gram = request.Gram,
-                    SiamToppanNumber = request.SiamToppanNumber,
-                    Remark = request.Remark,
+                    SiamToppanNumber = request.SiamToppanNumber.Trim(),
+                    Remark = request.Remark.Trim(),
                     IsActive = true,
                 };
                 _db.MASTER_MAINTAIN_SIAM_TOPPAN_GRADE.Add(data);
@@ -123,10 +124,10 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Authorization
                                   u.IsActive == true
                                   select u).FirstOrDefault();
 
-                updateData.Grade = request.Grade;
+                updateData.Grade = request.Grade.Trim();
                 updateData.Gram = request.Gram;
-                updateData.SiamToppanNumber = request.SiamToppanNumber;
-                updateData.Remark = request.Remark;
+                updateData.SiamToppanNumber = request.SiamToppanNumber.Trim();
+                updateData.Remark = request.Remark.Trim();
 
                 _db.SaveChanges();
 

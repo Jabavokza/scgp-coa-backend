@@ -15,7 +15,7 @@ namespace SCGP.COA.API.Controllers
     [Route("api/[controller]/[action]")]
     [ApiController]
     [ApiException]
-   // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class MasterMaintainAutoCoaController : ControllerBase
     {
         public IMasterMaintainAutoCoaCommand _masterCommand;
@@ -26,15 +26,15 @@ namespace SCGP.COA.API.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = RoleConstant.UserMaintain)]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
         public async Task<ResponseResult<MasterMaintainAutoCoaModel>> Create([FromBody] MasterMaintainAutoCoaModel param)
         {
             var data = _masterCommand.CreateData(param);
             return ResponseResult<MasterMaintainAutoCoaModel>.Success(data);
         }
 
-        [HttpPost]
-        [Authorize(Roles = RoleConstant.UserView)]
+        [HttpGet]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
         public async Task<ResponseResult<SearchResModel<MasterMaintainAutoCoaSearchResultModel>>> Search()
         {
             var data = _masterCommand.SearchData();
@@ -42,7 +42,7 @@ namespace SCGP.COA.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstant.UserView)]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
         public async Task<ResponseResult<MasterMaintainAutoCoaModel>> Get([FromQuery] int AutoCoaId)
         {
             var data = _masterCommand.GetData(AutoCoaId);
@@ -50,18 +50,18 @@ namespace SCGP.COA.API.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = RoleConstant.UserMaintain)]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
         public async Task<ResponseResult<string>> Update([FromBody] MasterMaintainAutoCoaModel param)
         {
             _masterCommand.UpdateData(param);
             return ResponseResult<SearchResModel<MasterMaintainAutoCoaModel>>.Success("Update Success");
         }
 
-        [HttpPut]
-        [Authorize(Roles = RoleConstant.UserMaintain)]
-        public async Task<ResponseResult<string>> Delete([FromQuery] int param)
+        [HttpDelete]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
+        public async Task<ResponseResult<string>> Delete([FromQuery] int AutoCoaId)
         {
-            _masterCommand.DeleteData(param);
+            _masterCommand.DeleteData(AutoCoaId);
             return ResponseResult<SearchResModel<MasterMaintainAutoCoaModel>>.Success("Delete Success");
         }
 

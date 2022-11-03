@@ -65,7 +65,7 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Authorization
             {
                 MasterMaintainForm data = new MasterMaintainForm()
                 {
-                    FormName = request.FormNumber,
+                    FormName = request.FormNumber.Trim(),
                     FormTemplateId = request.FormTemplateId,
                     Property01Id = request.Property1Id,
                     Property02Id = request.Property2Id,
@@ -181,7 +181,7 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Authorization
                                   u.IsActive == true
                                   select u).FirstOrDefault();
 
-                updateData.FormName = request.FormNumber;
+                updateData.FormName = request.FormNumber.Trim();
                 updateData.FormTemplateId = request.FormTemplateId;
                 updateData.Property01Id = request.Property1Id;
                 updateData.Property02Id = request.Property2Id;

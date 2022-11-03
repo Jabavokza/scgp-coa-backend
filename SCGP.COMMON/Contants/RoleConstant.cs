@@ -9,5 +9,6 @@
         public const string GroupMaintain = "Group Maintain";
         public const string PrintCoaExport = "Print Coa Export";
         public const string PrintCoaDomestic = "Print Coa Domestic";
+        public const string MasterDataMaintain = "Master Data Maintain";
     }
 }

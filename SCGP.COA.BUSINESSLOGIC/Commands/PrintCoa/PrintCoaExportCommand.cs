@@ -286,7 +286,24 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
             try
             {
                 string html = "";
+
+//                html = @"sdfsfds
+//sdfsdf
+//dsfsdfsd";
+
                 var center = new HTMLPropertyModel(HPROP.CLASS, "center");
+                var right = new HTMLPropertyModel(HPROP.CLASS, "right");
+                var left = new HTMLPropertyModel(HPROP.CLASS, "left");
+                html += HTMLUtil.OpenTag(HTAG.B, "Centificate Of Analysis", center);
+                html += HTMLUtil.OpenTag(HTAG.BR, null, null);
+                html += HTMLUtil.OpenTag(HTAG.B, "Siam Kfraft Industry Co.,Ltd", center);
+                html += HTMLUtil.OpenTag(HTAG.BR, null, null);
+                html += HTMLUtil.OpenTag(HTAG.B, "Customer:", left);
+                html += HTMLUtil.OpenTag(HTAG.SPAN, "customer name ", null);
+                html += HTMLUtil.OpenTag(HTAG.B, "Reference D/P No :", center);
+                html += HTMLUtil.OpenTag(HTAG.SPAN, "0000000000", null);
+                html += HTMLUtil.OpenTag(HTAG.B, "14:16:27", right);
+                html += HTMLUtil.OpenTag(HTAG.SPAN, "10/09/2022", null);
                 html += HTMLUtil.OpenTag(HTAG.TABLE, null, null);
 
                 html += HTMLUtil.OpenTag(HTAG.THERD, null, null);

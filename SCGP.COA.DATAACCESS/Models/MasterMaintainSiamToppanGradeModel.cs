@@ -10,6 +10,7 @@ namespace SCGP.COA.DATAACCESS.Models
         //public string MaterialSale { get; set; }
         public string SiamToppanNumber { get; set; }
         public string? Remark { get; set; }
+        public bool editData { get; set; }
     }
 
     public class MasterMaintainSiamToppanGradeModel
@@ -19,7 +20,7 @@ namespace SCGP.COA.DATAACCESS.Models
         public decimal Gram { get; set; }
         //public string MaterialSale { get; set; }
         public string SiamToppanNumber { get; set; }
-        public string? Remark { get; set; }
+        public string Remark { get; set; }
 
         //public void Validate()
         //{

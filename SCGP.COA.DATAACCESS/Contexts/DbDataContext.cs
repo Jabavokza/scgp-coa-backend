@@ -95,7 +95,6 @@ namespace SCGP.COA.DATAACCESS.Contexts
                 entity.ToTable("MASTER_AUTO_COA_CUSTOMER");
 
                 entity.Property(e => e.AutoCoaId)
-                    .ValueGeneratedNever()
                     .HasColumnName("AUTO_COA_ID");
 
                 entity.Property(e => e.AutocoaActive).HasColumnName("AUTOCOA_ACTIVE");
@@ -126,7 +125,6 @@ namespace SCGP.COA.DATAACCESS.Contexts
                 entity.ToTable("MASTER_CUSTOMER_COA_OPTION");
 
                 entity.Property(e => e.CustomerCoaOptionId)
-                    .ValueGeneratedNever()
                     .HasColumnName("CUSTOMER_COA_OPTION_ID");
 
                 entity.Property(e => e.CoaFooterText)
@@ -335,7 +333,6 @@ namespace SCGP.COA.DATAACCESS.Contexts
                 entity.ToTable("MASTER_FOOTER");
 
                 entity.Property(e => e.FooterId)
-                    .ValueGeneratedNever()
                     .HasColumnName("FOOTER_ID");
 
                 entity.Property(e => e.IsActive)
@@ -368,8 +365,7 @@ namespace SCGP.COA.DATAACCESS.Contexts
                 entity.ToTable("MASTER_HEADER");
 
                 entity.Property(e => e.HeaderId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("FORM_TEMPLATE_ID");
+                    .HasColumnName("HEADER_ID");
 
                 entity.Property(e => e.FormName)
                     .HasMaxLength(20)
@@ -509,7 +505,7 @@ namespace SCGP.COA.DATAACCESS.Contexts
             {
                 entity.ToTable("REFRESH_TOKENS");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id);
 
                 entity.Property(e => e.Token).HasMaxLength(255);
             });

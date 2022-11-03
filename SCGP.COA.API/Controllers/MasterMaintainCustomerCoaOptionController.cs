@@ -15,7 +15,7 @@ namespace SCGP.COA.API.Controllers
     [Route("api/[controller]/[action]")]
     [ApiController]
     [ApiException]
-   // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class MasterMaintainCustomerCoaOptionController : ControllerBase
     {
         private IMasterMaintainCustomerCoaOptionCommand _masterCommand;
@@ -26,7 +26,7 @@ namespace SCGP.COA.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = RoleConstant.UserMaintain)]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
         public async Task<ResponseResult<MasterMaintainCustomerCoaOptionModel>> Create([FromBody] MasterMaintainCustomerCoaOptionModel param)
         {
             var data = _masterCommand.CreateData(param);
@@ -34,7 +34,7 @@ namespace SCGP.COA.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstant.UserView)]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
         public async Task<ResponseResult<SearchResModel<MasterMaintainCustomerCoaOptionSearchResultModel>>> Search()
         {
             var data = _masterCommand.SearchData();
@@ -42,7 +42,7 @@ namespace SCGP.COA.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstant.UserView)]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
         public async Task<ResponseResult<MasterMaintainCustomerCoaOptionModel>> Get([FromQuery] int CustomerCoaOptionId)
         {
             var data = _masterCommand.GetData(CustomerCoaOptionId);
@@ -50,15 +50,15 @@ namespace SCGP.COA.API.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = RoleConstant.UserMaintain)]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
         public async Task<ResponseResult<string>> Update([FromBody] MasterMaintainCustomerCoaOptionModel param)
         {
             _masterCommand.UpdateData(param);
             return ResponseResult<SearchResModel<MasterMaintainCustomerCoaOptionModel>>.Success("Update Success");
         }
 
-        [HttpPut]
-        [Authorize(Roles = RoleConstant.UserMaintain)]
+        [HttpDelete]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
         public async Task<ResponseResult<string>> Delete([FromQuery] int CustomerCoaOptionId)
         {
             _masterCommand.DeleteData(CustomerCoaOptionId);
