@@ -15,7 +15,7 @@ namespace SCGP.COA.API.Controllers
     [Route("api/[controller]/[action]")]
     [ApiController]
     [ApiException]
-   // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class MasterMaintainHeaderController : ControllerBase
     {
         public IMasterMaintainHeaderCommand _masterCommand;
@@ -26,7 +26,7 @@ namespace SCGP.COA.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = RoleConstant.UserMaintain)]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
         public async Task<ResponseResult<MasterMaintainHeaderModel>> Create([FromBody] MasterMaintainHeaderModel param)
         {
             var data = _masterCommand.CreateData(param);
@@ -34,7 +34,7 @@ namespace SCGP.COA.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = RoleConstant.UserView)]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
         public async Task<ResponseResult<SearchResModel<MasterMaintainHeaderSearchResultModel>>> Search([FromBody] MasterMaintainHeaderSearchCriterialModel param)
         {
             var data = _masterCommand.SearchData(param);
@@ -42,7 +42,7 @@ namespace SCGP.COA.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstant.UserView)]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
         public async Task<ResponseResult<MasterMaintainHeaderModel>> Get([FromQuery] int HeaderId)
         {
             var data = _masterCommand.GetData(HeaderId);
@@ -50,15 +50,15 @@ namespace SCGP.COA.API.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = RoleConstant.UserMaintain)]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
         public async Task<ResponseResult<string>> Update([FromBody] MasterMaintainHeaderModel param)
         {
             _masterCommand.UpdateData(param);
             return ResponseResult<SearchResModel<MasterMaintainHeaderModel>>.Success("Update Success");
         }
 
-        [HttpPut]
-        [Authorize(Roles = RoleConstant.UserMaintain)]
+        [HttpDelete]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
         public async Task<ResponseResult<string>> Delete([FromQuery] int HeaderId)
         {
             _masterCommand.DeleteData(HeaderId);

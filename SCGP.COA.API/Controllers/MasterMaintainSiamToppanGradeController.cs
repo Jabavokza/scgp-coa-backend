@@ -15,7 +15,7 @@ namespace SCGP.COA.API.Controllers
     [Route("api/[controller]/[action]")]
     [ApiController]
     [ApiException]
-   // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class MasterMaintainSiamToppanGradeController : ControllerBase
     {
         public IMasterMaintainSiamToppanGradeCommand _masterCommand;
@@ -26,7 +26,7 @@ namespace SCGP.COA.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = RoleConstant.UserMaintain)]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
         public async Task<ResponseResult<MasterMaintainSiamToppanGradeModel>> Create([FromBody] MasterMaintainSiamToppanGradeModel param)
         {
             var data = _masterCommand.CreateData(param);
@@ -34,7 +34,7 @@ namespace SCGP.COA.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstant.UserView)]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
         public async Task<ResponseResult<SearchResModel<MasterMaintainSiamToppanGradeSearchResultModel>>> Search()
         {
             var data = _masterCommand.SearchData();
@@ -42,7 +42,7 @@ namespace SCGP.COA.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstant.UserView)]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
         public async Task<ResponseResult<MasterMaintainSiamToppanGradeModel>> Get([FromQuery] int SiamToppanGradeId)
         {
             var data = _masterCommand.GetData(SiamToppanGradeId);
@@ -50,15 +50,15 @@ namespace SCGP.COA.API.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = RoleConstant.UserMaintain)]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
         public async Task<ResponseResult<string>> Update([FromBody] MasterMaintainSiamToppanGradeModel param)
         {
             _masterCommand.UpdateData(param);
             return ResponseResult<SearchResModel<MasterMaintainSiamToppanGradeModel>>.Success("Update Success");
         }
 
-        [HttpPut]
-        [Authorize(Roles = RoleConstant.UserMaintain)]
+        [HttpDelete]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
         public async Task<ResponseResult<string>> Delete([FromQuery] int SiamToppanGradeId)
         {
             _masterCommand.DeleteData(SiamToppanGradeId);

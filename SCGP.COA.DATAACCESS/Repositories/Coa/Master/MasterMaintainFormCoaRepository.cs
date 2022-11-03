@@ -62,10 +62,10 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Authorization
                 MasterMaintainFormCoa data = new MasterMaintainFormCoa()
                 {
                     SequenceNo = request.SequenceNo,
-                    Grade = request.Grade,
+                    Grade = request.Grade.Trim(),
                     Gram = request.Gram,
-                    MaterialSale = request.MaterialSale,
-                    CustomerCode = request.CustomerCode,
+                    MaterialSale = request.MaterialSale.Trim(),
+                    CustomerCode = request.CustomerCode.Trim(),
                     FormPdfId = request.FormPdfId,
                     FormTextId = request.FormTextId,
                     FormExcelId = request.FormExcelId,
@@ -137,10 +137,10 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Authorization
                                   select u).FirstOrDefault();
 
                 updateData.SequenceNo = request.SequenceNo;
-                updateData.Grade = request.Grade;
+                updateData.Grade = request.Grade.Trim();
                 updateData.Gram = request.Gram;
-                updateData.MaterialSale = request.MaterialSale;
-                updateData.CustomerCode = request.CustomerCode;
+                updateData.MaterialSale = request.MaterialSale.Trim();
+                updateData.CustomerCode = request.CustomerCode.Trim();
                 updateData.FormPdfId = request.FormPdfId;
                 updateData.FormTextId = request.FormTextId;
                 updateData.FormExcelId = request.FormExcelId;

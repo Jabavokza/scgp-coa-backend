@@ -15,7 +15,7 @@ namespace SCGP.COA.API.Controllers
     [Route("api/[controller]/[action]")]
     [ApiController]
     [ApiException]
-   // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class MasterMaintainFormCoaController : ControllerBase
     {
         public IMasterMaintainFormCoaCommand _masterCommand;
@@ -26,7 +26,7 @@ namespace SCGP.COA.API.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = RoleConstant.UserMaintain)]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
         public async Task<ResponseResult<MasterMaintainFormCoaModel>> Create([FromBody] MasterMaintainFormCoaModel param)
         {
             var data = _masterCommand.CreateData(param);
@@ -34,7 +34,7 @@ namespace SCGP.COA.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstant.UserView)]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
         public async Task<ResponseResult<SearchResModel<MasterMaintainFormCoaSearchResultModel>>> Search()
         {
             var data = _masterCommand.SearchData();
@@ -42,7 +42,7 @@ namespace SCGP.COA.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = RoleConstant.UserView)]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
         public async Task<ResponseResult<MasterMaintainFormCoaModel>> Get([FromQuery] int FormCoaId)
         {
             var data = _masterCommand.GetData(FormCoaId);
@@ -50,15 +50,15 @@ namespace SCGP.COA.API.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = RoleConstant.UserMaintain)]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
         public async Task<ResponseResult<string>> Update([FromBody] MasterMaintainFormCoaModel param)
         {
             _masterCommand.UpdateData(param);
             return ResponseResult<SearchResModel<MasterMaintainFormCoaModel>>.Success("Update Success");
         }
 
-        [HttpPut]
-        [Authorize(Roles = RoleConstant.UserMaintain)]
+        [HttpDelete]
+        [Authorize(Roles = RoleConstant.MasterDataMaintain)]
         public async Task<ResponseResult<string>> Delete([FromQuery] int FormCoaId)
         {
             _masterCommand.DeleteData(FormCoaId);

@@ -64,7 +64,8 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Authorization
             {
                 MasterMaintainHeader data = new MasterMaintainHeader()
                 {
-                    DatetimeFormat = request.DatetimeFormat,
+                    DatetimeFormat = request.DatetimeFormat.Trim(),
+                    FormName = request.FormNumber.Trim(),
                     IsActive = true,
                 };
                 _db.MASTER_MAINTAIN_HEADER.Add(data);
@@ -73,6 +74,7 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Authorization
                 var res = new MasterMaintainHeaderModel()
                 {
                     HeaderId = data.HeaderId,
+                    FormNumber = data.FormName,
                     DatetimeFormat = data.DatetimeFormat,
                 };
 
@@ -96,6 +98,7 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Authorization
                            select new MasterMaintainHeaderModel
                            {
                                HeaderId = u.HeaderId,
+                               FormNumber = u.FormName,
                                DatetimeFormat = u.DatetimeFormat,
                            }).FirstOrDefault();
 
@@ -118,7 +121,8 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Authorization
                                         u.IsActive == true
                                   select u).FirstOrDefault();
 
-                updateData.DatetimeFormat = request.DatetimeFormat;
+                updateData.DatetimeFormat = request.DatetimeFormat.Trim();
+                updateData.FormName = request.FormNumber.Trim();
 
                 _db.SaveChanges();
 

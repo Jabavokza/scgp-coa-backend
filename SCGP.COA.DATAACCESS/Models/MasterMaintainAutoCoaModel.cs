@@ -6,6 +6,7 @@
         public string CustomerCode { get; set; }
         public string ShipToCode { get; set; }
         public bool AutocoaActive { get; set; }
+        public bool editData { get; set; }
     }
     public class MasterMaintainAutoCoaModel
     {

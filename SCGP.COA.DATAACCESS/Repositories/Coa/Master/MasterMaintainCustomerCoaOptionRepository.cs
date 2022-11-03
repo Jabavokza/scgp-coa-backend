@@ -45,6 +45,7 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Authorization
                                 Dp = u.DefaultOutputDp,
                                 DpBarcode = u.DefaultOutputDpBarcode,
                                 AdditionFooterText = u.CoaFooterText,
+                                EditData = false,
                             };
 
                 return query;
@@ -61,14 +62,14 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Authorization
             {
                 MasterMaintainCustomerCoaOption data = new MasterMaintainCustomerCoaOption()
                 {
-                    CustomerCode = request.CustomerCode,
-                    CustomerName = request.CustomerName,
-                    DefaultOutputPdf = request.DefaultOutputPdf,
-                    DefaultOutputText = request.DefaultOutputText,
-                    DefaultOutputExcel = request.DefaultOutputExcel,
-                    DefaultOutputDp = request.DefaultOutputDp,
-                    DefaultOutputDpBarcode = request.DefaultOutputDpBarcode,
-                    CoaFooterText = request.CoaFooterText,
+                    CustomerCode = request.CustomerCode.Trim(),
+                    CustomerName = request.CustomerName.Trim(),
+                    DefaultOutputPdf = request.Pdf,
+                    DefaultOutputText = request.Text,
+                    DefaultOutputExcel = request.Excel,
+                    DefaultOutputDp = request.Dp,
+                    DefaultOutputDpBarcode = request.DpBarcode,
+                    CoaFooterText = request.AdditionFooterText.Trim(),
                     IsActive = true,
                 };
                 _db.MASTER_MAINTAIN_CUSTOMER_COA_OPTION.Add(data);
@@ -78,12 +79,12 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Authorization
                 {
                     CustomerCoaOptionId = data.CustomerCoaOptionId,
                     CustomerName = data.CustomerName,
-                    DefaultOutputPdf = data.DefaultOutputPdf,
-                    DefaultOutputText = data.DefaultOutputText,
-                    DefaultOutputExcel = data.DefaultOutputExcel,
-                    DefaultOutputDp = data.DefaultOutputDp,
-                    DefaultOutputDpBarcode = data.DefaultOutputDpBarcode,
-                    CoaFooterText = data.CoaFooterText,
+                    Pdf = data.DefaultOutputPdf,
+                    Text = data.DefaultOutputText,
+                    Excel = data.DefaultOutputExcel,
+                    Dp = data.DefaultOutputDp,
+                    DpBarcode = data.DefaultOutputDpBarcode,
+                    AdditionFooterText = data.CoaFooterText,
                 };
 
                 return res;
@@ -107,12 +108,12 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Authorization
                            {
                                CustomerCoaOptionId = u.CustomerCoaOptionId,
                                CustomerName = u.CustomerName,
-                               DefaultOutputPdf = u.DefaultOutputPdf,
-                               DefaultOutputText = u.DefaultOutputText,
-                               DefaultOutputExcel = u.DefaultOutputExcel,
-                               DefaultOutputDp = u.DefaultOutputDp,
-                               DefaultOutputDpBarcode = u.DefaultOutputDpBarcode,
-                               CoaFooterText = u.CoaFooterText,
+                               Pdf = u.DefaultOutputPdf,
+                               Text = u.DefaultOutputText,
+                               Excel = u.DefaultOutputExcel,
+                               Dp = u.DefaultOutputDp,
+                               DpBarcode = u.DefaultOutputDpBarcode,
+                               AdditionFooterText = u.CoaFooterText,
                            }).FirstOrDefault();
 
                 return res;
@@ -134,14 +135,14 @@ namespace SCGP.COA.DATAACCESS.Repositories.Coa.Authorization
                                         u.IsActive == true
                                   select u).FirstOrDefault();
 
-                updateData.CustomerCode = request.CustomerCode;
-                updateData.CustomerName = request.CustomerName;
-                updateData.DefaultOutputPdf = request.DefaultOutputPdf;
-                updateData.DefaultOutputText = request.DefaultOutputText;
-                updateData.DefaultOutputExcel = request.DefaultOutputExcel;
-                updateData.DefaultOutputDp = request.DefaultOutputDp;
-                updateData.DefaultOutputDpBarcode = request.DefaultOutputDpBarcode;
-                updateData.CoaFooterText = request.CoaFooterText;
+                updateData.CustomerCode = request.CustomerCode.Trim();
+                updateData.CustomerName = request.CustomerName.Trim();
+                updateData.DefaultOutputPdf = request.Pdf;
+                updateData.DefaultOutputText = request.Text;
+                updateData.DefaultOutputExcel = request.Excel;
+                updateData.DefaultOutputDp = request.Dp;
+                updateData.DefaultOutputDpBarcode = request.DpBarcode;
+                updateData.CoaFooterText = request.AdditionFooterText.Trim();
 
                 _db.SaveChanges();
 

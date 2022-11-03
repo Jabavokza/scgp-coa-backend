@@ -17,7 +17,7 @@ namespace SCGP.COA.API.Controllers
     [Route("api/[controller]/[action]")]
     [ApiController]
     [ApiException]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PrintCoaExportController : ControllerBase
     {
         private IPrintCoaExportCommand _printCoaCommand;
@@ -28,14 +28,14 @@ namespace SCGP.COA.API.Controllers
         }
 
         [HttpPost]
-        // [Authorize(Roles = RoleConstant.PrintCoaExport)]
+        [Authorize(Roles = RoleConstant.PrintCoaExport)]
         public async Task<ResponseResult<Dictionary<string, Dictionary<string, string[]>>>> SearchAsync([FromBody] CoaPrintExportSearchModel param)
         {
             var result = await _printCoaCommand.GetDPNumberDataAsync(_configuration, param);
             return ResponseResult<Dictionary<string, Dictionary<string, string[]>>>.Success(result);
         }
         [HttpPost]
-        //[Authorize(Roles = RoleConstant.PrintCoaExport)]
+        [Authorize(Roles = RoleConstant.PrintCoaExport)]
         public ResponseResult<List<FileDataModel>> Print([FromBody] CoaPrintExportExecuteModel param)
         {
             var result = _printCoaCommand.PrintExport(this.ControllerContext, param);

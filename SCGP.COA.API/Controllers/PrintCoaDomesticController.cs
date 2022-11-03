@@ -15,7 +15,7 @@ namespace SCGP.COA.API.Controllers
     [Route("api/[controller]/[action]")]
     [ApiController]
     [ApiException]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PrintCoaDomesticController : ControllerBase
     {
         private IPrintCoaDomesticCommand _printCoaDomesticCommand;
@@ -33,7 +33,7 @@ namespace SCGP.COA.API.Controllers
             return ResponseResult<List<CoaPrintDomesticDataModel>>.Success(result);
         }
         [HttpPost]
-        //[Authorize(Roles = RoleConstant.PrintCoaExport)]
+        [Authorize(Roles = RoleConstant.PrintCoaExport)]
         public async Task<ResponseResult<List<FileDataModel>>> Print([FromBody] CoaPrintDomesticExecuteModel param) 
         {
             var result =await _printCoaDomesticCommand.PrintExport(this.ControllerContext, _configuration, param);
@@ -42,15 +42,15 @@ namespace SCGP.COA.API.Controllers
 
         [HttpPost]
 
-        //[Authorize(Roles = RoleConstant.PrintCoaExport)]
+        [Authorize(Roles = RoleConstant.PrintCoaExport)]
         public async Task<ResponseResult<List<FileDataModel>>>Save([FromBody] CoaPrintDomesticExecuteModel param)
         {
             var result =await _printCoaDomesticCommand.SaveExport(this.ControllerContext, _configuration, param);
             return ResponseResult<List<FileDataModel>>.Success(result);
         }
-        //[HttpPost]
 
-        ////[Authorize(Roles = RoleConstant.PrintCoaExport)]
+        //[HttpPost]
+        //[Authorize(Roles = RoleConstant.PrintCoaExport)]
         //public ResponseResult<List<FileDataModel>> DomesticCoa([FromBody] CoaPrintDomesticExecuteModel param)
         //{
         //    var result = _printCoaDomesticCommand.DomesticCoa(this.ControllerContext, _configuration, param);
