@@ -31,22 +31,15 @@ namespace SCGP.COA.API.Controllers
         [Authorize(Roles = RoleConstant.PrintCoaExport)]
         public async Task<ResponseResult<Dictionary<string, Dictionary<string, string[]>>>> SearchAsync([FromBody] CoaPrintExportSearchModel param)
         {
-            var result = await _printCoaCommand.GetDPNumberDataAsync(_configuration, param);
+            var result = await _printCoaCommand.GetDPNumberDataAsyncForNotConnectSAP(_configuration, param);
             return ResponseResult<Dictionary<string, Dictionary<string, string[]>>>.Success(result);
         }
+       
         [HttpPost]
         [Authorize(Roles = RoleConstant.PrintCoaExport)]
-        public ResponseResult<List<FileDataModel>> Print([FromBody] CoaPrintExportExecuteModel param)
+        public async Task<ResponseResult<List<FileDataModel>>> Excute([FromBody] CoaPrintExportExecuteModel param)
         {
-            var result = _printCoaCommand.PrintExport(this.ControllerContext, param);
-            return ResponseResult<List<FileDataModel>>.Success(result);
-        }
-
-        [HttpPost]
-        //[Authorize(Roles = RoleConstant.PrintCoaExport)]
-        public ResponseResult<List<FileDataModel>> Save([FromBody] CoaPrintExportExecuteModel param)
-        {
-            var result = _printCoaCommand.SaveExport(this.ControllerContext, param);
+            var result = await _printCoaCommand.ExcuteData(this.ControllerContext, _configuration, param);
             return ResponseResult<List<FileDataModel>>.Success(result);
         }
     }

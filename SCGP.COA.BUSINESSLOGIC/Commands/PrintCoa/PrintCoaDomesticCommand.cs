@@ -73,7 +73,7 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
         }
 
 
-        public async Task<List<CoaPrintDomesticDataModel>> GetDPNumberDataAsyncx(IConfiguration _configuration, CoaPrintDomesticSearchModel param)
+        public async Task<List<CoaPrintDomesticDataModel>> GetDPNumberDataAsyncForNotConnectSAP(IConfiguration _configuration, CoaPrintDomesticSearchModel param)
         {
             //Mockup Data
             List<CoaPrintDomesticDataModel> oDataModels = new();
@@ -214,6 +214,13 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
                                 }
                             }
                             ; break;
+                       
+                    }
+                }
+                foreach (var action in coaPrintModel.action!)
+                {
+                    switch (action?.ToString())
+                    {                      
                         case "Send to E-document":
                             foreach (var sItem in dataModels.Select(e => e.FileName))
                             {
@@ -225,7 +232,6 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
                             ; break;
                     }
                 }
-               
                 return dataModels;
             }
             catch (Exception ex)
@@ -233,7 +239,6 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
                 throw;
             }
         }
-
 
 
         //public List<FileDataModel> DomesticCoa(ControllerContext controllerContext, IConfiguration _configuration, CoaPrintDomesticExecuteModel coaPrintModel)
@@ -568,8 +573,7 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
             }
 
         }
-
-        public static byte[] WriteTextFile(List<ConvertingBatchDatum> convertingBatchData, string fileName)
+        private static byte[] WriteTextFile(List<ConvertingBatchDatum> convertingBatchData, string fileName)
         {
             var tStr = "";
             tStr += "Batch,Grade,Gram,ProductionDate,FilmThickness,Porosity,UploadedDatetime";
@@ -587,7 +591,7 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
             byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(tStr);
             return byteArray;
         }
-        public static byte[] WriteTextFileWithDb(DataTable oDbBatchData, string fileName)
+        private static byte[] WriteTextFileWithDb(DataTable oDbBatchData, string fileName)
         {
             StringBuilder oStr = new();
             try
@@ -649,67 +653,7 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
                 throw;
             }
         }
-        private async Task<SI_DeliveryInquiry_OSResponse> CALLxSapAsyncx(IConfiguration _configuration, string dpNumber)
-        {
-            try
-            {
-                List<CoaPrintDomesticDataModel> oDataModels = new();
-                List<DTDeliveryInquiryResItems> oDTDeliveryInquiryResItems = new();
-                List<PrintCoaExportTempSP> aPrintCoaExportTempSP = new();
-                var aDpNumber = new List<string>();
-
-                var oReqData = new DT_DeliveryInquiryReq();
-                oReqData.IV_DELIVERY_NUMBER = dpNumber;
-
-                var req = new SI_DeliveryInquiry_OSRequest()
-                {
-                    MT_DeliveryInquiryReq = oReqData
-                };
-
-                var res = await _sapService.CallSAPDeliveryInquiry(req);
-                return res;
-                //var oClient1 = new SI_DeliveryInquiry_OSClient(SI_DeliveryInquiry_OSClient.EndpointConfiguration.HTTPS_Port);
-                //oClient1.ClientCredentials.UserName.UserName = "PPGPIEDN";
-                //oClient1.ClientCredentials.UserName.Password = "Piedn-01";
-                //oClient1.ClientCredentials.Windows.AllowedImpersonationLevel = TokenImpersonationLevel.Impersonation;
-                //oClient1.OpenAsync().Wait();
-
-                //var oTasks = new List<Task>();
-                //oTasks.Add(Task.Run(async () =>
-                //{
-                //    var aDpNumber = new List<string>();
-
-                //    var oReqData = new DT_DeliveryInquiryReq();
-                //    oReqData.IV_DELIVERY_NUMBER = dpNumber;
-                //    var oResData = await oClient1.SI_DeliveryInquiry_OSAsync(oReqData);
-                //    var oData = oResData.MT_DeliveryInquiryRes;
-                //    if (oData.ET_LIKP.Length > 0)
-                //    {
-                //        var oDbBatchData = new DataTable();
-                //        foreach (var x in oData.ET_LIPS)
-                //        {
-                //            oDTDeliveryInquiryResItems.Add(new DTDeliveryInquiryResItems
-                //            {
-                //                DeliveryNum = dpNumber,
-                //                MaterialNum = x.MATNR,
-                //                BatchNum = x.CHARG,
-                //            });
-                //            // aPrintCoaExportTempSP.Add(CallSP_BatchData(_configuration, x.CHARG));
-                //            // aPrintCoaExportTempSP.Add(CallSP_LabData(_configuration, x.CHARG));
-
-                //            oDbBatchData.Merge(CallSP_BatchData(_configuration, x.CHARG));
-                //        }
-                //    }
-                //    oClient1.Close();
-                //}));
-                //await Task.WhenAll(oTasks.ToArray());
-                //return new DataTable();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
+       
         private async Task<PrintCoaExportTempSP> CALLxSapAsync(IConfiguration _configuration, CoaPrintDomesticExecuteModel coaPrintDomesticExecuteModel)//#2 MockUp Test because don't connect to  Sap
         {
             try
@@ -762,14 +706,6 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
                 }
                 catch (Exception ex)
                 {
-
-                    //aBatchNum.Add("O5042075AK");
-                    //aBatchNum.Add("O5042062BK");
-                    //aBatchNum.Add("O5042061BK");
-                    //aBatchNum.Add("O5042050BK");
-                    //aBatchNum.Add("O5042049BK");
-                    //aBatchNum.Add("O5042036BK");
-                    //aBatchNum.Add("O4258542R");
                 }
                 var oTasks = new List<Task>();
                 oTasks.Add(Task.Run(() =>

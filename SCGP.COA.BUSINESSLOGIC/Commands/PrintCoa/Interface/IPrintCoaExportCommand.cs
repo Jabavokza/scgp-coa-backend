@@ -7,10 +7,9 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa.Interface
 {
     public interface IPrintCoaExportCommand
     {
-        //FileDataModel ExportPdf(ControllerContext controllerContext);
-        //FileDataModel ExportExcel();
-        public List<FileDataModel> PrintExport(ControllerContext controllerContext, CoaPrintExportExecuteModel coaPrintModel);
-        public List<FileDataModel> SaveExport(ControllerContext controllerContext, CoaPrintExportExecuteModel coaPrintModel);
+        // public Task<List<CoaPrintExportDataModel>> GetDPNumberDataAsync(IConfiguration _configuration, CoaPrintExportSearchModel param);
+        public Task<Dictionary<string, Dictionary<string, string[]>>> GetDPNumberDataAsyncForNotConnectSAP(IConfiguration _configuration, CoaPrintExportSearchModel param);
         public Task<Dictionary<string, Dictionary<string, string[]>>> GetDPNumberDataAsync(IConfiguration _configuration, CoaPrintExportSearchModel param);
+        public Task<List<FileDataModel>> ExcuteData(ControllerContext controllerContext, IConfiguration _configuration, CoaPrintExportExecuteModel coaPrintModel);
     }
 }
