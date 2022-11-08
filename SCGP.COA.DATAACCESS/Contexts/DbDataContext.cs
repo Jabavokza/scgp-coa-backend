@@ -1,16 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Data.Common;
 using SCGP.COA.COMMON.Attributes;
-using SCGP.COA.DATAACCESS.Entities.Coa.Master.Autthorization;
-using static SCGP.COA.COMMON.Constants.AppConstant;
-using static System.Net.Mime.MediaTypeNames;
-using System.Data;
-using System.Text.RegularExpressions;
 using SCGP.COA.DATAACCESS.Entities.Coa;
+using SCGP.COA.DATAACCESS.Entities.Coa.Master.Autthorization;
+using System.Data.Common;
 
 namespace SCGP.COA.DATAACCESS.Contexts
 {
@@ -52,6 +44,7 @@ namespace SCGP.COA.DATAACCESS.Contexts
             modelBuilder.Entity<MASTER_GROUP>().Property(x => x.IsAdmin).HasDefaultValue(false);
             modelBuilder.Entity<MASTER_MENU>().Property(x => x.ActiveFlag).HasDefaultValue(true);
             modelBuilder.Entity<REFRESH_TOKEN>().HasIndex(x => x.Token);
+            modelBuilder.Entity<SAPShippingPoint>().HasNoKey();
 
 
 
@@ -117,46 +110,46 @@ namespace SCGP.COA.DATAACCESS.Contexts
                     .IsFixedLength();
             });
 
-        modelBuilder.Entity<MasterMaintainCustomerCoaOption>(entity =>
-            {
-                entity.HasKey(e => e.CustomerCoaOptionId)
-                    .HasName("PK__MASTER_C__8E71B5A803ABB44D");
+            modelBuilder.Entity<MasterMaintainCustomerCoaOption>(entity =>
+                {
+                    entity.HasKey(e => e.CustomerCoaOptionId)
+                        .HasName("PK__MASTER_C__8E71B5A803ABB44D");
 
-                entity.ToTable("MASTER_CUSTOMER_COA_OPTION");
+                    entity.ToTable("MASTER_CUSTOMER_COA_OPTION");
 
-                entity.Property(e => e.CustomerCoaOptionId)
-                    .HasColumnName("CUSTOMER_COA_OPTION_ID");
+                    entity.Property(e => e.CustomerCoaOptionId)
+                        .HasColumnName("CUSTOMER_COA_OPTION_ID");
 
-                entity.Property(e => e.CoaFooterText)
-                    .HasColumnName("COA_FOOTER_TEXT")
-                    .HasDefaultValueSql("('')");
+                    entity.Property(e => e.CoaFooterText)
+                        .HasColumnName("COA_FOOTER_TEXT")
+                        .HasDefaultValueSql("('')");
 
-                entity.Property(e => e.CustomerCode)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("CUSTOMER_CODE")
-                    .IsFixedLength();
+                    entity.Property(e => e.CustomerCode)
+                        .HasMaxLength(10)
+                        .IsUnicode(false)
+                        .HasColumnName("CUSTOMER_CODE")
+                        .IsFixedLength();
 
-                entity.Property(e => e.CustomerName)
-                    .HasMaxLength(100)
-                    .HasColumnName("CUSTOMER_NAME")
-                    .HasDefaultValueSql("('')");
+                    entity.Property(e => e.CustomerName)
+                        .HasMaxLength(100)
+                        .HasColumnName("CUSTOMER_NAME")
+                        .HasDefaultValueSql("('')");
 
-                entity.Property(e => e.DefaultOutputDp).HasColumnName("DEFAULT_OUTPUT_DP");
+                    entity.Property(e => e.DefaultOutputDp).HasColumnName("DEFAULT_OUTPUT_DP");
 
-                entity.Property(e => e.DefaultOutputDpBarcode).HasColumnName("DEFAULT_OUTPUT_DP_BARCODE");
+                    entity.Property(e => e.DefaultOutputDpBarcode).HasColumnName("DEFAULT_OUTPUT_DP_BARCODE");
 
-                entity.Property(e => e.DefaultOutputExcel).HasColumnName("DEFAULT_OUTPUT_EXCEL");
+                    entity.Property(e => e.DefaultOutputExcel).HasColumnName("DEFAULT_OUTPUT_EXCEL");
 
-                entity.Property(e => e.DefaultOutputPdf).HasColumnName("DEFAULT_OUTPUT_PDF");
+                    entity.Property(e => e.DefaultOutputPdf).HasColumnName("DEFAULT_OUTPUT_PDF");
 
-                entity.Property(e => e.DefaultOutputText).HasColumnName("DEFAULT_OUTPUT_TEXT");
+                    entity.Property(e => e.DefaultOutputText).HasColumnName("DEFAULT_OUTPUT_TEXT");
 
-                entity.Property(e => e.IsActive)
-                    .IsRequired()
-                    .HasColumnName("IS_ACTIVE")
-                    .HasDefaultValueSql("(CONVERT([bit],(0)))");
-            });
+                    entity.Property(e => e.IsActive)
+                        .IsRequired()
+                        .HasColumnName("IS_ACTIVE")
+                        .HasDefaultValueSql("(CONVERT([bit],(0)))");
+                });
 
             modelBuilder.Entity<MasterMaintainForm>(entity =>
             {
@@ -565,6 +558,7 @@ namespace SCGP.COA.DATAACCESS.Contexts
         public virtual DbSet<MasterMaintainSiamToppanGrade> MASTER_MAINTAIN_SIAM_TOPPAN_GRADE { get; set; } = null!;
         public virtual DbSet<MasterDatabase> MASTER_DATABASE { get; set; } = null!;
         public virtual DbSet<ConvertingBatchDatum> ConvertingBatchData { get; set; } = null!;
+        public virtual DbSet<SAPShippingPoint> SAPShippingPoints { get; set; } = null!;
         #endregion Master
 
         #region Running number

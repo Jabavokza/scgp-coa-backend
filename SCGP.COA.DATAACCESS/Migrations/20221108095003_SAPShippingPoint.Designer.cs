@@ -12,8 +12,8 @@ using SCGP.COA.DATAACCESS.Contexts;
 namespace SCGP.COA.DATAACCESS.Migrations
 {
     [DbContext(typeof(DbDataContext))]
-    [Migration("20221101044131_Identity")]
-    partial class Identity
+    [Migration("20221108095003_SAPShippingPoint")]
+    partial class SAPShippingPoint
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -956,6 +956,23 @@ namespace SCGP.COA.DATAACCESS.Migrations
                         .HasName("PK__MASTER_S__3B5452A6D3712AA1");
 
                     b.ToTable("MASTER_SIAM_TOPPAN_GRADE", (string)null);
+                });
+
+            modelBuilder.Entity("SCGP.COA.DATAACCESS.Entities.Coa.SAPShippingPoint", b =>
+                {
+                    b.Property<string>("Company_Code")
+                        .IsRequired()
+                        .HasColumnType("varchar(5)");
+
+                    b.Property<string>("InterCom_Status")
+                        .IsRequired()
+                        .HasColumnType("char(10)");
+
+                    b.Property<string>("Shipping_Point")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.ToTable("SAPShippingPoints");
                 });
 
             modelBuilder.Entity("SCGP.COA.DATAACCESS.Entities.Coa.Master.Autthorization.MASTER_GROUP_ROLE", b =>

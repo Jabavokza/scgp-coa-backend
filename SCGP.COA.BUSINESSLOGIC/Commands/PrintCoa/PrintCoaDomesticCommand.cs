@@ -19,25 +19,9 @@ using System.Data;
 using SAP_Interface_DeliveryNum;
 using SCGP.COA.DATAACCESS.Repositories.Coa.ExportCoa;
 using SCGP.COA.DATAACCESS.Repositories.Coa.ExportCoa.Interfece;
-using PdfSharpCore.Pdf;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System.Text;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using static SCGP.COA.COMMON.Contants.FileConstant;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
-using System.IO.Packaging;
-using System.ServiceModel.Description;
-using System.Security.Principal;
-using SCGP.COA.BUSINESSLOGIC.Services;
-using Renci.SshNet;
 using System.Net;
-using static SCGP.COA.COMMON.Constants.AppConstant;
-using DocumentFormat.OpenXml.Wordprocessing;
-using DocumentFormat.OpenXml.Drawing;
-using System.Reflection;
-using System.Linq;
 
 namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
 {
@@ -53,6 +37,8 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
         private IExportCoaRepo _exportCoaRepo;
         private List<PrintCoaExportTempSP> _aPrintCoaExportTempSP;
         private ISAPService _sapService;
+        private ISapShippingPointRepo _SapShippingPointRepo;
+        private string _CustomerId = "";
         public PrintCoaDomesticCommand(CoaSkicPM17GypsumRepo.ICoaFormRepository coaSkicPM17Gypsum_coaFormRepository
             , CoaSkicPM1to3Repo.ICoaFormRepository coaSkicPM1to3_coaFormRepository
             , IPdfService pdfService
@@ -60,7 +46,8 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
             , IFileService fileService
             , ILaminateRepo laminateRepo
             , IExportCoaRepo exportCoaRepo
-            , ISAPService sapService)
+            , ISAPService sapService,
+              ISapShippingPointRepo sapShippingPointRepo)
         {
             _coaSkicPM17Gypsum_coaFormRepository = coaSkicPM17Gypsum_coaFormRepository;
             _coaSkicPM1to3_coaFormRepository = coaSkicPM1to3_coaFormRepository;
@@ -70,6 +57,7 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
             _laminateRepo = laminateRepo;
             _exportCoaRepo = exportCoaRepo;
             _sapService = sapService;
+            _SapShippingPointRepo = sapShippingPointRepo;
         }
 
 
@@ -102,27 +90,133 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
                     var aDpNumber = new List<string>();
                     for (int i = nDpNumberStart; i <= nDpNumberEnd; i++)
                     {
-
-                        var oReq = new SI_DeliveryInquiry_OSRequest()
+                        foreach (var oItem in _SapShippingPointRepo.GetShippingPoints())
                         {
-                            MT_DeliveryInquiryReq = new DT_DeliveryInquiryReq
+                            var oReq = new SI_DeliveryInquiry_OSRequest()
                             {
-                                IV_DELIVERY_NUMBER = i.ToString(),
-                                IV_SHIPPING_POINT = "7501",
-                                IV_ORG = "0750"
+                                MT_DeliveryInquiryReq = new DT_DeliveryInquiryReq
+                                {
+                                    IV_DELIVERY_NUMBER = i.ToString(),
+                                    IV_SHIPPING_POINT = oItem.Shipping_Point,
+                                    IV_ORG = oItem.Company_Code
+                                }
+                            };
+                            var oData = await _sapService.CallSAPDeliveryInquiry(oReq);
+                            if (oData.MT_DeliveryInquiryRes.ET_LIKP != null && oData.MT_DeliveryInquiryRes.ET_LIKP.Any())
+                            {
+                                oDataModels.Add(new CoaPrintDomesticDataModel { dpNumberId = i.ToString(), dpNumberName = i.ToString() });
+                                break;
                             }
-                        };
-                        var oData = await _sapService.CallSAPDeliveryInquiry(oReq);
-                        if (oData.MT_DeliveryInquiryRes.ET_LIKP != null && oData.MT_DeliveryInquiryRes.ET_LIKP.Any())
-                        {
-                            oDataModels.Add(new CoaPrintDomesticDataModel { dpNumberId = i.ToString(), dpNumberName = i.ToString() });
+                            else
+                                continue;
+
                         }
-                        else
-                            continue;
+
                     }
                 }));
                 await Task.WhenAll(oTasks.ToArray());
                 return oDataModels;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        private async Task<PrintCoaExportTempSP> CALLxSapAsync(IConfiguration _configuration, CoaPrintDomesticExecuteModel coaPrintDomesticExecuteModel)//#2 MockUp Test because don't connect to  Sap
+        {
+            try
+            {
+                List<CoaPrintDomesticDataModel> oDataModels = new();
+                List<DTDeliveryInquiryResItems> oDTDeliveryInquiryResItems = new();
+                PrintCoaExportTempSP oPrintCoaExportTempSP = new();
+                var sDpNumber = coaPrintDomesticExecuteModel.dpNumber;
+                var aOption = coaPrintDomesticExecuteModel.option;
+
+                //var aBatchNum = new List<string>();
+                try
+                {
+                    foreach (var oItem in _SapShippingPointRepo.GetShippingPoints())
+                    {
+                        var oReqData = new DT_DeliveryInquiryReq
+                        {
+                            IV_DELIVERY_NUMBER = sDpNumber,
+                            IV_SHIPPING_POINT = oItem.Shipping_Point,
+                            IV_ORG = oItem.Company_Code,
+                            //IV_ITEM_FLAG = oItem.InterCom_Status
+                            //IV_DELIVERY_NUMBER = sDpNumber,
+                            //IV_SHIPPING_POINT = "7501",
+                            //IV_ORG = "0750",
+                            IV_ITEM_FLAG = "X"
+                        };
+                        var oReq = new SI_DeliveryInquiry_OSRequest()
+                        {
+                            MT_DeliveryInquiryReq = oReqData
+                        };
+                        var oData = await _sapService.CallSAPDeliveryInquiry(oReq);
+                        if (oData.MT_DeliveryInquiryRes.ET_LIKP != null && oData.MT_DeliveryInquiryRes.ET_LIPS != null)
+                        {
+                            foreach (var x in oData.MT_DeliveryInquiryRes.ET_LIPS)
+                            {
+                                if (x.LFIMG != 0)
+                                {
+                                    if (x.CHARG != null)
+                                    {
+                                        oDTDeliveryInquiryResItems.Add(new DTDeliveryInquiryResItems
+                                        {
+                                            DeliveryNum = sDpNumber,
+                                            MaterialNum = x.MATNR,
+                                            BatchNum = x.CHARG
+                                        });
+                                        _CustomerId = oData.MT_DeliveryInquiryRes.ET_LIKP.Select(s => s.KUNAG).FirstOrDefault()!;
+                                    }
+                                    else
+                                    {
+                                        string sMsgError = "Delivery Number [" + sDpNumber + "] Item [" + x.MATNR + "] has not been picked yet.";
+                                    }
+                                }
+
+                            }
+                            break;
+                        }
+                        else
+                            continue;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                }
+                var oTasks = new List<Task>();
+                oTasks.Add(Task.Run(() =>
+                {
+                    foreach (var oItem in oDTDeliveryInquiryResItems)
+                    {
+                        //var oDTDeliveryInquiryResItems = new DTDeliveryInquiryResItems
+                        //{
+                        //    DeliveryNum = oItem.DeliveryNum,
+                        //    MaterialNum = oItem.MaterialNum,
+                        //    BatchNum = oItem.BatchNum,
+                        //};
+                        foreach (var sOption in aOption!)
+                        {
+                            switch (sOption)
+                            {
+                                case "Text":
+                                    oPrintCoaExportTempSP.ExportTextFile.Merge(SET_DataForTextFile(_configuration, oItem.BatchNum));
+                                    break;
+                                case "Excel":
+                                    oPrintCoaExportTempSP.ExportExcel.Merge(SET_DataForExcelFile(_configuration, oItem.BatchNum));
+                                    break;
+                                case "PDF":
+                                    oPrintCoaExportTempSP.ExportPDF.Merge(SET_DataForPDFFile(_configuration, oItem));
+                                    break;
+                            }
+                        }
+                    }
+                    return Task.CompletedTask;
+                }));
+                await Task.WhenAll(oTasks.ToArray());
+                return oPrintCoaExportTempSP;
             }
             catch (Exception)
             {
@@ -188,8 +282,8 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
             {
                 //  var oDatax = await CALLxSapAsyncx(_configuration, coaPrintModel.dpNumber!);
                 var oData = await CALLxSapAsync(_configuration, coaPrintModel);
-                List<FileDataModel> dataModels = new();       
-                bool bGenPDF=false;
+                List<FileDataModel> dataModels = new();
+                bool bGenPDF = false;
                 foreach (var action in coaPrintModel.action!)
                 {
                     switch (action?.ToString())
@@ -199,7 +293,7 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
                             {
                                 switch (option?.ToString())
                                 {
-                                    case "PDF": dataModels.Add(ExportPdf(controllerContext, oData.ExportPDF, coaPrintModel.dpNumber!)); bGenPDF=true; break;
+                                    case "PDF": dataModels.Add(ExportPdf(controllerContext, oData.ExportPDF, coaPrintModel.dpNumber!)); bGenPDF = true; break;
                                 }
                             }
                             ; break;
@@ -208,24 +302,24 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
                             {
                                 switch (option?.ToString())
                                 {
-                                    case "PDF":if (!bGenPDF) { dataModels.Add(ExportPdf(controllerContext, oData.ExportPDF, coaPrintModel.dpNumber!)); }; break;
+                                    case "PDF": if (!bGenPDF) { dataModels.Add(ExportPdf(controllerContext, oData.ExportPDF, coaPrintModel.dpNumber!)); }; break;
                                     case "Excel": dataModels.Add(ExportToExcel(oData.ExportExcel, coaPrintModel.dpNumber!)); break;
                                     case "Text": dataModels.Add(ExporTextFile(oData.ExportTextFile, coaPrintModel.dpNumber!)); break;
                                 }
                             }
                             ; break;
-                       
+
                     }
                 }
                 foreach (var action in coaPrintModel.action!)
                 {
                     switch (action?.ToString())
-                    {                      
+                    {
                         case "Send to E-document":
                             foreach (var sItem in dataModels.Select(e => e.FileName))
                             {
                                 var sFileName = sItem;
-                                var sCustomerId = "0000000011";
+                                var sCustomerId = _CustomerId;
                                 var sSubFolder = System.IO.Path.Combine(sCustomerId);
                                 await Task.Run(() => UploadFTPFile(_configuration, sFileName, sSubFolder));
                             }
@@ -424,9 +518,9 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
         {
             try
             {
-                string sPath = $"{_environment.ContentRootPath}" + $"{FileConstant.Template.UploadFTP}";
+                var sPath = $"{_environment.ContentRootPath}" + $"{FileConstant.Template.UploadFTP}";
                 var sDateTime = DateTime.Now.ToString("ddMMyyhhmmss");
-                var res = new FileDataModel()
+                var oRes = new FileDataModel()
                 {
                     //FileName = "SCGP_COA_PrintExportExcel_" + sDateTime + ".xlsx",
                     FileName = sDpNumber + ".xlsx",
@@ -456,11 +550,11 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
                     }
 
                     using var ms = new MemoryStream();
-                    workbook.SaveAs(sPath + res.FileName);
+                    workbook.SaveAs(sPath + oRes.FileName);
                     workbook.SaveAs(ms);
-                    res.FileSize = ms.Length;
-                    res.FileData = ms.ToArray();
-                    return res;
+                    oRes.FileSize = ms.Length;
+                    oRes.FileData = ms.ToArray();
+                    return oRes;
                 }
             }
             catch (Exception ex)
@@ -602,14 +696,14 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
                     {
                         //Add the Data rows.
                         var sData = oRow[oColumn.ColumnName].ToString();
-                        if (sData!="")
+                        if (sData != "")
                         {
                             oStr.Append(oRow[oColumn.ColumnName].ToString());
                         }
-                      
+
                     }
                     //Add new line.
-                    var sStr = oStr.Length > 0 ? "\r\n" :  "";
+                    var sStr = oStr.Length > 0 ? "\r\n" : "";
                     oStr.Append(sStr);
                 }
                 if (oStr != null && oStr.Length > 0) oStr.Length--;//ลบ "\r\n" ตัวสุดท้ายออก
@@ -653,97 +747,7 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
                 throw;
             }
         }
-       
-        private async Task<PrintCoaExportTempSP> CALLxSapAsync(IConfiguration _configuration, CoaPrintDomesticExecuteModel coaPrintDomesticExecuteModel)//#2 MockUp Test because don't connect to  Sap
-        {
-            try
-            {
-                List<CoaPrintDomesticDataModel> oDataModels = new();
-                List<DTDeliveryInquiryResItems> oDTDeliveryInquiryResItems = new();
-                PrintCoaExportTempSP oPrintCoaExportTempSP = new();
-                var sDpNumber = coaPrintDomesticExecuteModel.dpNumber;
-                var aOption = coaPrintDomesticExecuteModel.option;
 
-                //var aBatchNum = new List<string>();
-                try
-                {
-                    var oReqData = new DT_DeliveryInquiryReq
-                    {
-                        IV_DELIVERY_NUMBER = sDpNumber,
-                        IV_SHIPPING_POINT = "7501",
-                        IV_ORG = "0750",
-                        IV_ITEM_FLAG="X"
-                    };
-                    var oReq = new SI_DeliveryInquiry_OSRequest()
-                    {
-                        MT_DeliveryInquiryReq = oReqData
-                    };
-                    var oData = await _sapService.CallSAPDeliveryInquiry(oReq);
-                    if (oData.MT_DeliveryInquiryRes.ET_LIKP != null  && oData.MT_DeliveryInquiryRes.ET_LIPS!=null)
-                    {
-                        foreach (var x in oData.MT_DeliveryInquiryRes.ET_LIPS)
-                        {
-                            if (x.LFIMG!=0)
-                            {
-                                if (x.CHARG != null)
-                                {
-                                    oDTDeliveryInquiryResItems.Add(new DTDeliveryInquiryResItems
-                                    {
-                                        DeliveryNum = sDpNumber,
-                                        MaterialNum = x.MATNR,
-                                        BatchNum = x.CHARG,
-                                    });
-                                    //aBatchNum.Add(x.CHARG);
-                                }
-                                else
-                                {
-                                    string sMsgError = "Delivery Number [" + sDpNumber + "] Item ["+ x.MATNR + "] has not been picked yet.";
-                                }                                                           
-                            }
-                         
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                }
-                var oTasks = new List<Task>();
-                oTasks.Add(Task.Run(() =>
-                {
-                    foreach (var oItem in oDTDeliveryInquiryResItems)
-                    {
-                        var oDTDeliveryInquiryResItems = new DTDeliveryInquiryResItems
-                        {
-                            DeliveryNum = oItem.DeliveryNum,
-                            MaterialNum = oItem.MaterialNum,
-                            BatchNum = oItem.BatchNum,
-                        };
-                        foreach (var sOption in aOption!)
-                        {
-                            switch (sOption)
-                            {
-                                case "Text":
-                                    oPrintCoaExportTempSP.ExportTextFile.Merge(SET_DataForTextFile(_configuration, oItem.BatchNum));
-                                    break;
-                                case "Excel":
-                                    oPrintCoaExportTempSP.ExportExcel.Merge(SET_DataForExcelFile(_configuration, oItem.BatchNum));
-                                    break;
-                                case "PDF":
-                                    oPrintCoaExportTempSP.ExportPDF.Merge(SET_DataForPDFFile(_configuration, oDTDeliveryInquiryResItems));
-                                    break;
-                            }
-                        }
-                    }
-                    return Task.CompletedTask;
-                }));
-                await Task.WhenAll(oTasks.ToArray());
-                return oPrintCoaExportTempSP;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
         private DataTable SET_DataForTextFile(IConfiguration _configuration, string? sBatchNum)//#3.1
         {
             try

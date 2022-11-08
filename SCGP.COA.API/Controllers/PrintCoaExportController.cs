@@ -22,16 +22,17 @@ namespace SCGP.COA.API.Controllers
     {
         private IPrintCoaExportCommand _printCoaCommand;
         private readonly IConfiguration _configuration;
-        public PrintCoaExportController(IPrintCoaExportCommand printCoaCommand)
+        public PrintCoaExportController(IConfiguration configuration, IPrintCoaExportCommand printCoaCommand)
         {
             _printCoaCommand = printCoaCommand;
+            _configuration = configuration;
         }
 
         [HttpPost]
         [Authorize(Roles = RoleConstant.PrintCoaExport)]
         public async Task<ResponseResult<Dictionary<string, Dictionary<string, string[]>>>> SearchAsync([FromBody] CoaPrintExportSearchModel param)
         {
-            var result = await _printCoaCommand.GetDPNumberDataAsyncForNotConnectSAP(_configuration, param);
+            var result = await _printCoaCommand.GetDPNumberDataAsync(_configuration, param);
             return ResponseResult<Dictionary<string, Dictionary<string, string[]>>>.Success(result);
         }
        

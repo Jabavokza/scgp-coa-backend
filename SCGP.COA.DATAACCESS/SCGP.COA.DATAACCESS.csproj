@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <Folder Include="Entities\Coa\Master\" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>

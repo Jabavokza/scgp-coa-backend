@@ -956,6 +956,23 @@ namespace SCGP.COA.DATAACCESS.Migrations
                     b.ToTable("MASTER_SIAM_TOPPAN_GRADE", (string)null);
                 });
 
+            modelBuilder.Entity("SCGP.COA.DATAACCESS.Entities.Coa.SAPShippingPoint", b =>
+                {
+                    b.Property<string>("Company_Code")
+                        .IsRequired()
+                        .HasColumnType("varchar(5)");
+
+                    b.Property<string>("InterCom_Status")
+                        .IsRequired()
+                        .HasColumnType("char(10)");
+
+                    b.Property<string>("Shipping_Point")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
+
+                    b.ToTable("SAPShippingPoints");
+                });
+
             modelBuilder.Entity("SCGP.COA.DATAACCESS.Entities.Coa.Master.Autthorization.MASTER_GROUP_ROLE", b =>
                 {
                     b.HasOne("SCGP.COA.DATAACCESS.Entities.Coa.Master.Autthorization.MASTER_GROUP", "GROUP")
