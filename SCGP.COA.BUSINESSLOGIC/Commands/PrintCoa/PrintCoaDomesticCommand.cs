@@ -142,10 +142,6 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
                             IV_DELIVERY_NUMBER = sDpNumber,
                             IV_SHIPPING_POINT = oItem.Shipping_Point,
                             IV_ORG = oItem.Company_Code,
-                            //IV_ITEM_FLAG = oItem.InterCom_Status
-                            //IV_DELIVERY_NUMBER = sDpNumber,
-                            //IV_SHIPPING_POINT = "7501",
-                            //IV_ORG = "0750",
                             IV_ITEM_FLAG = "X"
                         };
                         var oReq = new SI_DeliveryInquiry_OSRequest()
@@ -191,12 +187,6 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
                 {
                     foreach (var oItem in oDTDeliveryInquiryResItems)
                     {
-                        //var oDTDeliveryInquiryResItems = new DTDeliveryInquiryResItems
-                        //{
-                        //    DeliveryNum = oItem.DeliveryNum,
-                        //    MaterialNum = oItem.MaterialNum,
-                        //    BatchNum = oItem.BatchNum,
-                        //};
                         foreach (var sOption in aOption!)
                         {
                             switch (sOption)

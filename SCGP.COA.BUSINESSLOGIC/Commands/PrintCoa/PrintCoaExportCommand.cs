@@ -256,12 +256,6 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
                 {
                     foreach (var oItem in oDTDeliveryInquiryResItems)
                     {
-                        var oDTDeliveryInquiryResItems = new DTDeliveryInquiryResItems
-                        {
-                            DeliveryNum = oItem.DeliveryNum,
-                            MaterialNum = oItem.MaterialNum,
-                            BatchNum = oItem.BatchNum,
-                        };
                         foreach (var sOption in aOption!)
                         {
                             switch (sOption)
@@ -273,7 +267,7 @@ namespace SCGP.COA.BUSINESSLOGIC.Commands.PrintCoa
                                     oPrintCoaExportTempSP.ExportExcel.Merge(SET_DataForExcelFile(_configuration, oItem.BatchNum));
                                     break;
                                 case "PDF":
-                                    oPrintCoaExportTempSP.ExportPDF.Merge(SET_DataForPDFFile(_configuration, oDTDeliveryInquiryResItems));
+                                    oPrintCoaExportTempSP.ExportPDF.Merge(SET_DataForPDFFile(_configuration, oItem));
                                     break;
                             }
                         }
